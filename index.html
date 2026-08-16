@@ -176,12 +176,17 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
 .guide-carousel-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.35); }
 .guide-carousel-dots span.active { background: var(--gold-primary); }
 @media (max-width: 700px) {
-  .guide-cards { padding: 20px calc(50% - 145px) 20px !important; gap: 16px !important; }
+  .guide-cards { padding: 20px calc(50% - 110px) 20px !important; gap: 16px !important; }
   .guide-card { flex: 0 0 290px !important; width: 290px !important; max-width: 290px !important; min-width: 0 !important; min-height: 560px !important; padding: 1.6rem 1.4rem !important; box-sizing: border-box !important; }
   .guide-carousel { width: 100% !important; max-width: 100% !important; aspect-ratio: 1 / 1 !important; height: auto !important; margin: 0.6rem 0 1.2rem !important; position: relative !important; display: block !important; overflow: hidden !important; }
-  .guide-carousel-slide, .guide-carousel-slide.img-gold-wrap { height: 100% !important; }
+  .guide-carousel-slide { height: 100% !important; width: 100% !important; }
+  .guide-carousel-slide.img-gold-wrap { height: 100% !important; width: 100% !important; padding: 2px !important; box-sizing: border-box !important; }
   .guide-carousel img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; }
   .guide-card-title { margin-top: 0 !important; clear: both !important; }
+  .guide-card-1 .img-gold-wrap { border: 1.5px solid rgba(244,63,94,0.2) !important; }
+  .guide-card-2 .img-gold-wrap { border: 1.5px solid rgba(245,158,11,0.2) !important; }
+  .guide-card-3 .img-gold-wrap { border: 1.5px solid rgba(6,182,212,0.2) !important; }
+  .guide-card-4 .img-gold-wrap { border: 1.5px solid rgba(16,185,129,0.2) !important; }
 }
 
 .btn-gold { background: linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%); color: black; transition: all 0.2s; display: inline-block; }
