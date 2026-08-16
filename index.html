@@ -178,8 +178,9 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
 @media (max-width: 700px) {
   .guide-cards { padding: 20px calc(50% - 145px) 20px !important; gap: 16px !important; }
   .guide-card { flex: 0 0 290px !important; width: 290px !important; max-width: 290px !important; min-width: 0 !important; min-height: 560px !important; padding: 1.6rem 1.4rem !important; box-sizing: border-box !important; }
-  .guide-carousel { width: 100% !important; max-width: 100% !important; }
-  .guide-carousel img, .img-gold-wrap img { max-width: 100% !important; width: 100% !important; height: auto !important; }
+  .guide-carousel { width: 100% !important; max-width: 100% !important; margin-bottom: 1.8rem !important; position: relative !important; }
+  .guide-carousel img, .img-gold-wrap img { max-width: 100% !important; width: 100% !important; height: auto !important; position: static !important; }
+  .guide-card-title { margin-top: 0.4rem !important; position: relative !important; z-index: 1 !important; }
 }
 
 .btn-gold { background: linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%); color: black; transition: all 0.2s; display: inline-block; }
