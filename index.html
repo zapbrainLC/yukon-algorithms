@@ -178,9 +178,10 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
 @media (max-width: 700px) {
   .guide-cards { padding: 20px calc(50% - 145px) 20px !important; gap: 16px !important; }
   .guide-card { flex: 0 0 290px !important; width: 290px !important; max-width: 290px !important; min-width: 0 !important; min-height: 560px !important; padding: 1.6rem 1.4rem !important; box-sizing: border-box !important; }
-  .guide-carousel { width: 100% !important; max-width: 100% !important; margin-bottom: 1.8rem !important; position: relative !important; }
-  .guide-carousel img, .img-gold-wrap img { max-width: 100% !important; width: 100% !important; height: auto !important; position: static !important; }
-  .guide-card-title { margin-top: 0.4rem !important; position: relative !important; z-index: 1 !important; }
+  .guide-carousel { width: 100% !important; max-width: 100% !important; aspect-ratio: 1 / 1 !important; height: auto !important; margin: 0.6rem 0 1.2rem !important; position: relative !important; display: block !important; overflow: hidden !important; }
+  .guide-carousel-slide, .guide-carousel-slide.img-gold-wrap { height: 100% !important; }
+  .guide-carousel img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; }
+  .guide-card-title { margin-top: 0 !important; clear: both !important; }
 }
 
 .btn-gold { background: linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%); color: black; transition: all 0.2s; display: inline-block; }
