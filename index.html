@@ -235,6 +235,8 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
   .problem-grid .problem-card { flex: 0 0 78vw !important; max-width: 300px !important; scroll-snap-align: start !important; }
   .trust-badge-grid { grid-template-columns: 1fr !important; }
   .feature-grid { grid-template-columns: 1fr !important; }
+  .feature-grid-reverse > div:first-child { order: 2 !important; }
+  .feature-grid-reverse > div:last-child { order: 1 !important; }
   .guide-step { grid-template-columns: 44px 1fr; gap: 0 1.2rem; }
   .guide-timeline::before { left: 22px; }
   .guide-step-num { width: 44px; height: 44px; font-size: 1rem; }
@@ -636,7 +638,7 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
         </div>
       </div>
     </div>
-    <div class="feature-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+    <div class="feature-grid feature-grid-reverse" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
       <div>
         <div class="img-gold-wrap" data-lightbox-src="excel-file3.png" data-lightbox-caption="Trade-by-Trade Journal" data-lightbox-caption-en="Trade-by-Trade Journal">
           <img src="excel-file3.png" alt="Trade List" class="feature-img">
