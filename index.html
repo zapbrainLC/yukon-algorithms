@@ -187,6 +187,14 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
   .guide-card-2 .img-gold-wrap { border: 1.5px solid rgba(245,158,11,0.2) !important; }
   .guide-card-3 .img-gold-wrap { border: 1.5px solid rgba(6,182,212,0.2) !important; }
   .guide-card-4 .img-gold-wrap { border: 1.5px solid rgba(16,185,129,0.2) !important; }
+  .guide-cards-nav-arrow { display: flex !important; }
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.6rem !important; }
+  h3[style*="2.8rem"] { font-size: 2rem !important; }
+  p[style*="font-size:1.1rem"] { font-size: 0.95rem !important; }
+  h3[style*="1.7rem"] { font-size: 1.35rem !important; }
+  #lifetime-price ~ div, #lifetime-old-price ~ div { white-space: nowrap !important; }
+  .price-regular-badge { white-space: nowrap !important; font-size: 11px !important; padding: 5px 10px !important; }
 }
 
 .btn-gold { background: linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%); color: black; transition: all 0.2s; display: inline-block; }
@@ -245,7 +253,9 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
   .problem-grid { display: flex !important; overflow-x: auto !important; gap: 1rem !important; padding: 4px 4px 12px !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; }
   .problem-grid::-webkit-scrollbar { display: none !important; }
   .problem-grid .problem-card { flex: 0 0 78vw !important; max-width: 300px !important; scroll-snap-align: start !important; }
-  .trust-badge-grid { grid-template-columns: 1fr !important; }
+  .trust-badge-grid { display: flex !important; overflow-x: auto !important; gap: 1rem !important; padding: 4px 4px 12px !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; }
+  .trust-badge-grid::-webkit-scrollbar { display: none !important; }
+  .trust-badge-grid > div { flex: 0 0 62vw !important; max-width: 230px !important; scroll-snap-align: start !important; }
   .feature-grid { grid-template-columns: 1fr !important; }
   .feature-grid-reverse > div:first-child { order: 2 !important; }
   .feature-grid-reverse > div:last-child { order: 1 !important; }
@@ -712,7 +722,9 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
       </p>
     </div>
 
-    <div class="guide-cards-outer">
+    <div class="guide-cards-outer" style="position:relative;">
+      <div class="guide-cards-nav-arrow prev" id="guideCardsPrev" onclick="scrollGuideCards(-1)" style="display:none;position:absolute;left:2px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.7);border:1.5px solid rgba(196,167,125,0.4);color:#c4a77d;align-items:center;justify-content:center;cursor:pointer;font-size:16px;z-index:5;">‹</div>
+      <div class="guide-cards-nav-arrow next" id="guideCardsNext" onclick="scrollGuideCards(1)" style="display:none;position:absolute;right:2px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.7);border:1.5px solid rgba(196,167,125,0.4);color:#c4a77d;align-items:center;justify-content:center;cursor:pointer;font-size:16px;z-index:5;">›</div>
       <div class="guide-cards" id="guideCards">
         <div class="guide-card guide-card-1">
           <div class="guide-card-num">01</div>
@@ -866,7 +878,7 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
           <div class="mascot-emoji" style="font-size:34px;line-height:1;flex-shrink:0;">⏳</div>
           <div style="line-height:1.5;">
             <span class="lang-de">Spare <strong class="fire-text">40&nbsp;€</strong> bei Kauf bis <strong>09.09.</strong> – danach 179,99&nbsp;€!</span>
-            <span class="lang-en lang-hidden">Save <strong class="fire-text">€40</strong> if you buy by <strong>Sep&nbsp;9</strong> – then €179.99!</span>
+            <span class="lang-en lang-hidden">Save <strong class="fire-text">40&nbsp;€</strong> if you buy by <strong>Sep&nbsp;9</strong> – then 179.99 €!</span>
           </div>
           <div class="mascot-emoji" style="font-size:34px;line-height:1;flex-shrink:0;">🥳</div>
         </div>
@@ -891,8 +903,8 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
           <span id="lifetime-old-price" style="display:none;font-size:20px;color:#6b7280;text-decoration:line-through;text-decoration-thickness:1px;">179,99&nbsp;€</span>
           <span class="plan-price" id="lifetime-price" style="font-size:44px;font-weight:900;background:linear-gradient(180deg,#ffffff 0%,#c4a77d 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">139,99&nbsp;€</span>
         </div>
-        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,167,125,0.12);border:1px solid rgba(196,167,125,0.35);border-radius:100px;padding:5px 14px;font-size:12px;color:#c4a77d;font-weight:600;">
-          🔖 <span class="lang-de">regulär 179,99&nbsp;€ · Einmalige Zahlung</span><span class="lang-en lang-hidden">regularly €179.99 · One-time payment</span>
+        <div class="price-regular-badge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,167,125,0.12);border:1px solid rgba(196,167,125,0.35);border-radius:100px;padding:5px 14px;font-size:12px;color:#c4a77d;font-weight:600;">
+          🔖 <span class="lang-de">regulär 179,99&nbsp;€ · Einmalige Zahlung</span><span class="lang-en lang-hidden">regularly 179.99 € · One-time payment</span>
         </div>
       </div>
 
@@ -945,9 +957,46 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
         const now = new Date();
         const isLaunch = now <= launchEnd;
 
-        document.getElementById('lifetime-price').textContent = isLaunch ? "139,99 €" : "179,99 €";
+        document.getElementById('lifetime-price').textContent = isLaunch ? "139,99\u00A0€" : "179,99\u00A0€";
         document.getElementById('lifetime-old-price').style.display = isLaunch ? 'inline' : 'none';
         document.getElementById('launch-banner').style.display = isLaunch ? 'block' : 'none';
+      })();
+
+      (function() {
+        var track = document.getElementById('guideCards');
+        var prevBtn = document.getElementById('guideCardsPrev');
+        var nextBtn = document.getElementById('guideCardsNext');
+        if (!track || !prevBtn || !nextBtn) return;
+        var colorsBorder = ['rgba(244,63,94,0.35)', 'rgba(245,158,11,0.35)', 'rgba(6,182,212,0.35)', 'rgba(16,185,129,0.35)'];
+        var colorsIcon = ['rgba(244,63,94,0.7)', 'rgba(245,158,11,0.7)', 'rgba(6,182,212,0.7)', 'rgba(16,185,129,0.7)'];
+        function updateArrowColor() {
+          var cards = track.querySelectorAll('.guide-card');
+          var trackRect = track.getBoundingClientRect();
+          var centerX = trackRect.left + trackRect.width / 2;
+          var closestIdx = 0, closestDist = Infinity;
+          cards.forEach(function(card, i) {
+            var r = card.getBoundingClientRect();
+            var dist = Math.abs((r.left + r.width / 2) - centerX);
+            if (dist < closestDist) { closestDist = dist; closestIdx = i; }
+          });
+          var borderColor = colorsBorder[closestIdx] || 'rgba(196,167,125,0.35)';
+          var iconColor = colorsIcon[closestIdx] || '#c4a77d';
+          prevBtn.style.borderColor = borderColor;
+          prevBtn.style.color = iconColor;
+          nextBtn.style.borderColor = borderColor;
+          nextBtn.style.color = iconColor;
+          prevBtn.style.visibility = closestIdx === 0 ? 'hidden' : 'visible';
+          nextBtn.style.visibility = closestIdx === cards.length - 1 ? 'hidden' : 'visible';
+        }
+        track.addEventListener('scroll', updateArrowColor);
+        window.addEventListener('resize', updateArrowColor);
+        updateArrowColor();
+        window.scrollGuideCards = function(dir) {
+          var card = track.querySelector('.guide-card');
+          var cardWidth = card ? card.getBoundingClientRect().width : 270;
+          var gap = 16;
+          track.scrollBy({ left: dir * (cardWidth + gap), behavior: 'smooth' });
+        };
       })();
       </script>
       
@@ -1153,15 +1202,15 @@ document.getElementById('download-modal').addEventListener('click', function(e) 
   .faq-summary::-webkit-details-marker { display: none; }
 </style>
 
-<footer style="padding:2.5rem;text-align:center;color:#8a94a3;font-size:11px;border-top:1px solid rgba(255,255,255,0.04);">  <div style="margin-bottom:1rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
-    <a href="legal-notice.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">Impressum</a>
-    <a href="privacy.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+<footer style="padding:2.5rem;text-align:center;color:#444;font-size:11px;border-top:1px solid rgba(255,255,255,0.04);">  <div style="margin-bottom:1rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
+    <a href="legal-notice.html" style="color:#444;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#444'">Impressum</a>
+    <a href="privacy.html" style="color:#444;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#444'">
       <span class="lang-de">Datenschutz</span><span class="lang-en lang-hidden">Privacy</span>
     </a>
-    <a href="terms.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+    <a href="terms.html" style="color:#444;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#444'">
       <span class="lang-de">AGB</span><span class="lang-en lang-hidden">Terms</span>
     </a>
-    <a href="withdrawal.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+    <a href="withdrawal.html" style="color:#444;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#444'">
       <span class="lang-de">Widerrufsbelehrung</span><span class="lang-en lang-hidden">Right of Withdrawal</span>
     </a>
   </div>
