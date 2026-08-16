@@ -158,7 +158,8 @@ body { background: transparent; color: var(--text-main); font-family: 'Inter', s
 .guide-cards::-webkit-scrollbar { display: none; }
 .guide-card { flex: 0 0 520px; min-height: 650px; scroll-snap-align: center; will-change: transform, opacity; }
 .guide-card:hover { border-color: rgba(196,167,125,0.5); transform: translateY(-3px); }
-.guide-card { background: var(--bg-card); border: 1px solid rgba(196,167,125,0.18); border-radius: 18px; padding: 2.4rem 2.2rem; transition: border-color 0.25s, transform 0.25s; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; }
+.guide-card { background: var(--bg-card); border: 1px solid rgba(196,167,125,0.18); border-radius: 18px; box-sizing: border-box; overflow: hidden; transition: border-color 0.25s; position: relative; }
+.guide-card-inner { padding: 2.4rem 2.2rem; display: flex; flex-direction: column; height: 100%; width: 100%; box-sizing: border-box; will-change: transform, opacity; }
 .guide-card-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-primary); margin-bottom: 1.3rem; }
 .guide-card-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.8rem; }
 .guide-card-desc { color: #adbed6; font-size: 14.5px; line-height: 1.8; margin-bottom: 1.4rem; flex-grow: 1; }
@@ -704,34 +705,34 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
 
     <div class="guide-cards-outer">
       <div class="guide-cards" id="guideCards">
-        <div class="guide-card guide-card-1">
+        <div class="guide-card guide-card-1"><div class="guide-card-inner">
           <div class="guide-card-num">01</div>
           <div class="guide-carousel" data-carousel>
             <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="choose-group.png" data-lightbox-caption="Gruppe auswählen" data-lightbox-caption-en="Select Group"><img src="choose-group.png" alt="Telegram-Gruppe auswählen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Gruppe auswählen</strong><strong class="lang-en lang-hidden">Select Group</strong><em class="lang-de">Signalgruppe per Namen aus dem Dropdown wählen</em><em class="lang-en lang-hidden">Pick your signal group by name from the dropdown</em></div></div></div>
           </div>
           <div class="guide-card-title"><span class="lang-de">Gruppe auswählen</span><span class="lang-en lang-hidden">Select Group</span></div>
           <div class="guide-card-desc"><span class="lang-de">Beim ersten Öffnen des <strong style="color:#ddd;">Group</strong>-Tabs bestätigst du einmalig deine Telefonnummer. Danach werden alle Gruppen, in denen du Mitglied bist, automatisch geladen – wähle einfach deine Signalgruppe per Namen aus dem Dropdown aus.</span><span class="lang-en lang-hidden">The first time you open the <strong style="color:#ddd;">Group</strong> tab, you confirm your phone number once. After that, all groups you're a member of load automatically — just pick your signal group by name from the dropdown.</span></div>
-        </div>
+        </div></div>
 
-        <div class="guide-card guide-card-2">
+        <div class="guide-card guide-card-2"><div class="guide-card-inner">
           <div class="guide-card-num">02</div>
           <div class="guide-carousel" data-carousel>
             <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="choose-daterange.png" data-lightbox-caption="Analysezeitraum auswählen" data-lightbox-caption-en="Select Analysis Period"><img src="choose-daterange.png" alt="Analysezeitraum auswählen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Analysezeitraum</strong><strong class="lang-en lang-hidden">Analysis Period</strong><em class="lang-de">Optional Start- und Enddatum für den Analysezeitraum festlegen</em><em class="lang-en lang-hidden">Optionally set a start and end date for the analysis period</em></div></div></div>
           </div>
           <div class="guide-card-title"><span class="lang-de">Zeitraum wählen</span><span class="lang-en lang-hidden">Select Period</span></div>
           <div class="guide-card-desc"><span class="lang-de">YUKON lädt XAUUSD-Kursdaten (1-Minuten-Auflösung) automatisch im Hintergrund. Optional kannst du den Analysezeitraum über ein Start- und Enddatum einschränken.</span><span class="lang-en lang-hidden">YUKON automatically fetches XAUUSD price data (1-minute resolution) in the background. Optionally, you can restrict the analysis period by picking a start and end date.</span></div>
-        </div>
+        </div></div>
 
-        <div class="guide-card guide-card-3">
+        <div class="guide-card guide-card-3"><div class="guide-card-inner">
           <div class="guide-card-num">03</div>
           <div class="guide-carousel" data-carousel>
             <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="close-at-tp.png" data-lightbox-caption="Close-at-TP Auswahl" data-lightbox-caption-en="Close-at-TP Selection"><img src="close-at-tp.png" alt="Close at TP"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Close-at-TP Auswahl</strong><strong class="lang-en lang-hidden">Close-at-TP Selection</strong><em class="lang-de">TP-Level auswählen, bei dem Trades automatisch geschlossen werden</em><em class="lang-en lang-hidden">Select the TP level at which trades should be automatically closed</em></div></div></div>
           </div>
           <div class="guide-card-title"><span class="lang-de">Close-at-TP</span><span class="lang-en lang-hidden">Close-at-TP</span></div>
           <div class="guide-card-desc"><span class="lang-de">Wähle aus, bei welchem Take-Profit-Level der Trade automatisch geschlossen wird. Bei <strong style="color:#ddd;">TP 5</strong> schließt der Bot immer am fünften Ziel. Hat ein Signal weniger TPs, wird beim letzten verfügbaren TP geschlossen.</span><span class="lang-en lang-hidden">Choose at which take-profit level the trade is automatically closed. If <strong style="color:#ddd;">TP 5</strong> is selected, the bot always closes at the fifth target. If a signal has fewer TPs, it closes at the last available one.</span></div>
-        </div>
+        </div></div>
 
-        <div class="guide-card guide-card-4">
+        <div class="guide-card guide-card-4"><div class="guide-card-inner">
           <div class="guide-card-num">04</div>
           <div class="guide-carousel" data-carousel>
             <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="start-backtest1.png" data-lightbox-caption="Backtest starten" data-lightbox-caption-en="Start backtest"><img src="start-backtest1.png" alt="Backtest starten"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Backtest starten</strong><strong class="lang-en lang-hidden">Start backtest</strong><em class="lang-de">„Start Backtest" klicken um den Analyse-Prozess zu starten</em><em class="lang-en lang-hidden">Click "Start Backtest" to begin the analysis process</em></div></div></div>
@@ -743,9 +744,9 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
           </div>
           <div class="guide-card-title"><span class="lang-de">Backtest starten</span><span class="lang-en lang-hidden">Start Backtest</span></div>
           <div class="guide-card-desc"><span class="lang-de">Auf <strong style="color:#ddd;">Start Backtest</strong> klicken – der Bot lädt die früheren Signale der Gruppe und prüft sie Schritt für Schritt gegen die Echtzeit-Marktdaten. Je nach Signalmenge dauert das wenige Sekunden bis einige Minuten.</span><span class="lang-en lang-hidden">Click <strong style="color:#ddd;">Start Backtest</strong> — the bot loads previous signals and verifies them against real market data. This takes seconds to a few minutes depending on the number of signals.</span></div>
-        </div>
+        </div></div>
 
-        <div class="guide-card guide-card-5">
+        <div class="guide-card guide-card-5"><div class="guide-card-inner">
           <div class="guide-card-num">05</div>
           <div class="guide-carousel" data-carousel>
             <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="excel-file1.png" data-lightbox-caption="Ordner öffnen – yukon_backtests" data-lightbox-caption-en="Open folder – yukon_backtests"><img src="excel-file1.png" alt="Ordner öffnen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Ordner öffnen</strong><strong class="lang-en lang-hidden">Open folder</strong><em class="lang-de">Excel-Datei im Ordner yukon_backtests finden</em><em class="lang-en lang-hidden">Find the Excel file inside yukon_backtests</em></div></div></div>
@@ -757,7 +758,7 @@ body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
           </div>
           <div class="guide-card-title"><span class="lang-de">Excel-Report</span><span class="lang-en lang-hidden">Excel Report</span></div>
           <div class="guide-card-desc"><span class="lang-de">Nach Abschluss des Backtests öffne im Bot-Installationsordner den Unterordner <strong style="color:#ddd;">yukon_backtests</strong> und starte die Excel-Datei. Das Dashboard zeigt alle Kennzahlen auf einen Blick, die Trade-Historie enthält jedes einzelne Signal mit vollständiger Auswertung.</span><span class="lang-en lang-hidden">After the backtest completes, open the <strong style="color:#ddd;">yukon_backtests</strong> subfolder and launch the Excel file. The dashboard shows all metrics at a glance, while the trade history contains every signal with full analysis.</span></div>
-        </div>
+        </div></div>
       </div>
     </div>
 
@@ -1033,13 +1034,13 @@ document.querySelectorAll('[data-carousel]').forEach(function (car) {
     var center = wrap.scrollLeft + wrap.clientWidth / 2;
     var maxDist = wrap.clientWidth / 2 + 260;
     cards.forEach(function (c) {
+      var inner = c.querySelector('.guide-card-inner');
       var cCenter = c.offsetLeft + c.offsetWidth / 2;
       var dist = Math.abs(cCenter - center);
       var t = Math.min(dist / maxDist, 1);
       var scale = 1 - t * 0.32;
       var opacity = 1 - t * 0.65;
-      c.style.transform = 'scale(' + scale.toFixed(3) + ')';
-      c.style.opacity = opacity.toFixed(3);
+      if (inner) { inner.style.transform = 'scale(' + scale.toFixed(3) + ')'; inner.style.opacity = opacity.toFixed(3); }
       c.style.zIndex = String(Math.round((1 - t) * 100));
     });
     ticking = false;
