@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YUKON - Gold Signal Backtester for Telegram Groups</title>
+<meta name="description" content="YUKON analyzes Telegram trading signals against historical XAUUSD market data and generates automated backtesting reports. Available as a one-time lifetime purchase.">
+<link rel="canonical" href="https://yukon-algorithms.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "YUKON",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Windows",
+  "description": "YUKON analyzes Telegram trading signals against historical XAUUSD market data and generates automated backtesting reports.",
+  "url": "https://yukon-algorithms.com/",
+  "offers": {
+    "@type": "Offer",
+    "price": "9.99",
+    "priceCurrency": "USD",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/InStock",
+    "url": "https://yukon-algorithms.com/"
+  }
+}
+</script>
+<link rel="icon" href="yukon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0d0d0d;
+  --bg-card: #141414;
+  --gold-primary: #c4a77d;
+  --gold-dim: #8c7858;
+  --text-main: #e0e0e0;
+  --border-color: #262626;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background-color: var(--bg-dark); }
+body { background: transparent; color: var(--text-main); font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+.gold-text { color: var(--gold-primary); }
+
+.nav-logo-img {
+  filter: drop-shadow(0 0 8px rgba(196,167,125,0.65));
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+.nav-logo-img:hover {
+  filter: drop-shadow(0 0 18px rgba(196,167,125,1)) drop-shadow(0 0 32px rgba(196,167,125,0.5));
+}
+@keyframes coinSpin {
+  0%   { transform: rotateY(0deg)   scaleX(1); }
+  25%  { transform: rotateY(45deg)  scaleX(0.7); }
+  50%  { transform: rotateY(90deg)  scaleX(0.05); }
+  75%  { transform: rotateY(135deg) scaleX(0.7); }
+  100% { transform: rotateY(180deg) scaleX(1); }
+}
+
+.img-gold-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(196,167,125,0.45),
+    0 0 12px 0px rgba(196,167,125,0.18),
+    0 10px 40px rgba(0,0,0,0.6);
+  transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.img-gold-wrap:hover {
+  transform: scale(1.035);
+  box-shadow:
+    0 0 0 1.5px rgba(196,167,125,0.85),
+    0 0 28px 4px rgba(196,167,125,0.38),
+    0 0 60px 8px rgba(196,167,125,0.12),
+    0 18px 56px rgba(0,0,0,0.7);
+}
+.img-gold-wrap img { width: 100%; height: auto; display: block; border-radius: 12px; transition: filter 0.35s ease; }
+.img-gold-wrap:hover img { filter: brightness(0.78); }
+
+.img-gold-caption {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-end;
+  padding: 1.4rem 1.2rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 55%, transparent 100%);
+  opacity: 0; transition: opacity 0.3s ease;
+  border-radius: 12px; pointer-events: none;
+}
+.img-gold-wrap:hover .img-gold-caption { opacity: 1; }
+.img-gold-caption-inner { color: #e0e0e0; font-size: 12px; line-height: 1.55; }
+.img-gold-caption-inner strong { display: block; font-size: 13px; font-weight: 700; color: var(--gold-primary); margin-bottom: 3px; letter-spacing: 0.04em; }
+.img-gold-caption-inner em { font-style: normal; color: #94a3b8; font-size: 11px; }
+
+.img-phone-wrap { position: relative; display: inline-block; max-width: 320px; width: 100%; }
+.img-phone-wrap .img-gold-wrap { border-radius: 16px; }
+.img-phone-wrap .img-gold-wrap img { border-radius: 16px; }
+.img-phone-wrap .img-gold-caption { border-radius: 16px; }
+
+.hero-screenshot-wrap {
+  border-radius: 12px; overflow: hidden; border: none;
+  box-shadow: 0 0 0 1px rgba(196,167,125,0.35), 0 0 16px 2px rgba(196,167,125,0.12), 0 25px 80px rgba(0,0,0,0.6);
+  transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
+  position: relative; cursor: zoom-in;
+}
+.hero-screenshot-wrap:hover {
+  transform: scale(1.018);
+  box-shadow: 0 0 0 1.5px rgba(196,167,125,0.75), 0 0 30px 6px rgba(196,167,125,0.22), 0 30px 90px rgba(0,0,0,0.7);
+}
+.hero-screenshot-wrap img { width: 100%; height: auto; display: block; transition: filter 0.35s ease; }
+.hero-screenshot-wrap:hover img { filter: brightness(0.8); }
+.hero-screenshot-wrap .img-gold-caption { border-radius: 0; }
+.hero-screenshot-wrap:hover .img-gold-caption { opacity: 1; }
+
+#guide { background: transparent; border-top: 1px solid rgba(255,255,255,0.04); padding: 6rem 1.5rem; }
+.guide-inner { max-width: 1060px; margin: 0 auto; }
+.guide-timeline { position: relative; }
+.guide-timeline::before {
+  content: ''; position: absolute; left: 27px; top: 6px; bottom: 6px; width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(196,167,125,0.3) 6%, rgba(196,167,125,0.3) 94%, transparent 100%);
+}
+.guide-step { display: grid; grid-template-columns: 56px 1fr; gap: 0 2.5rem; margin-bottom: 4.5rem; position: relative; }
+.guide-step:last-child { margin-bottom: 0; }
+.guide-step-num {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #0a0a0a; border: 1px solid rgba(196,167,125,0.45);
+  box-shadow: 0 0 20px rgba(196,167,125,0.1), inset 0 0 10px rgba(196,167,125,0.04);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+  color: var(--gold-primary); flex-shrink: 0; position: relative; z-index: 2;
+}
+.guide-step-body { padding-top: 12px; }
+.guide-step-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.65rem; }
+.guide-step-desc { color: #94a3b8; font-size: 14px; line-height: 1.78; margin-bottom: 1.4rem; max-width: 700px; }
+.guide-step-desc a, .guide-substep a, .guide-tip a { color: var(--gold-primary); text-decoration: none; border-bottom: 1px solid rgba(196,167,125,0.3); transition: border-color 0.2s; }
+.guide-step-desc a:hover, .guide-substep a:hover, .guide-tip a:hover { border-color: var(--gold-primary); }
+.guide-substeps { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1.5rem; max-width: 700px; }
+.guide-substep { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #b0b8c4; line-height: 1.6; }
+.guide-substep-arrow { color: var(--gold-primary); opacity: 0.7; flex-shrink: 0; font-size: 11px; margin-top: 3px; font-family: monospace; }
+.guide-tip {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: rgba(196,167,125,0.05); border: 1px solid rgba(196,167,125,0.16);
+  border-left: 2px solid rgba(196,167,125,0.5); border-radius: 6px;
+  padding: 10px 14px; font-size: 12px; color: #8a9aaa; line-height: 1.65;
+  margin-bottom: 1.5rem; max-width: 700px;
+}
+.guide-tip-icon { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
+.guide-screenshots.cols-3 .img-gold-wrap { aspect-ratio: 4 / 4; }
+.guide-screenshots.cols-3 .img-gold-wrap img { height: 100%; object-fit: cover; object-position: top; }
+.guide-screenshots { display: grid; gap: 12px; margin-top: 4px; }
+.guide-screenshots.cols-1 { grid-template-columns: 1fr; max-width: 520px; }
+.guide-screenshots.cols-2 { grid-template-columns: 1fr 1fr; }
+.guide-screenshots.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.guide-cards-outer { position: relative; padding: 60px 0 40px; }
+.guide-cards { display: flex; align-items: flex-start; gap: 4px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 20px calc(50% - 260px) 20px; scrollbar-width: none; -ms-overflow-style: none; }
+.guide-cards::-webkit-scrollbar { display: none; }
+.guide-card { flex: 0 0 520px; min-height: 650px; scroll-snap-align: center; will-change: transform, opacity; }
+.guide-card:hover { border-color: rgba(196,167,125,0.5); transform: translateY(-3px); }
+.guide-card { background: var(--bg-card); border: 1px solid rgba(196,167,125,0.18); border-radius: 18px; padding: 2.4rem 2.2rem; transition: border-color 0.25s, transform 0.25s; display: flex; flex-direction: column; }
+.guide-card-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-primary); margin-bottom: 1.3rem; }
+.guide-card-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.8rem; }
+.guide-card-desc { color: #adbed6; font-size: 14.5px; line-height: 1.8; margin-bottom: 1.4rem; flex-grow: 1; }
+.guide-card-tag { color: var(--gold-primary); font-size: 11px; font-family: monospace; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.guide-carousel { position: relative; border-radius: 10px; margin: 0.6rem 0 1.5rem; aspect-ratio: 4/3; background: #0a0a0a; }
+.guide-carousel-slide { border-radius: 10px; overflow: hidden; }
+.guide-carousel img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.guide-carousel-slide { display: none; }
+.guide-carousel-slide.active { display: block; }
+.guide-carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,0.6); border: 1px solid rgba(196,167,125,0.4); color: var(--gold-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; z-index: 2; user-select: none; }
+.guide-carousel-arrow:hover { background: rgba(0,0,0,0.85); border-color: var(--gold-primary); }
+.guide-carousel-arrow.prev { left: 6px; }
+.guide-carousel-arrow.next { right: 6px; }
+.guide-carousel-dots { position: absolute; bottom: 6px; left: 0; right: 0; display: flex; justify-content: center; gap: 4px; z-index: 2; }
+.guide-carousel-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+.guide-carousel-dots span.active { background: var(--gold-primary); }
+@media (max-width: 700px) { .guide-cards { padding: 20px calc(50% - 160px) 20px; gap: 16px; } .guide-card { flex: 0 0 320px; min-height: 560px; } }
+
+.btn-gold { background: linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%); color: black; transition: all 0.2s; display: inline-block; }
+.btn-gold:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.lang-hidden { display: none !important; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+.feature-img { width: 100%; height: auto; display: block; border-radius: 12px; }
+.problem-card { transition: border-color 0.2s; }
+.problem-card-1 { border-color: rgba(244,63,94,0.2) !important; }
+.problem-card-1:hover { border-color: rgba(244,63,94,0.4) !important; }
+.problem-card-2 { border-color: rgba(245,158,11,0.2) !important; }
+.problem-card-2:hover { border-color: rgba(245,158,11,0.4) !important; }
+.problem-card-3 { border-color: rgba(6,182,212,0.2) !important; }
+.problem-card-3:hover { border-color: rgba(6,182,212,0.4) !important; }
+.problem-card-4 { border-color: rgba(16,185,129,0.2) !important; }
+.problem-card-4:hover { border-color: rgba(16,185,129,0.4) !important; }
+.guide-card-1 { border-color: rgba(244,63,94,0.2) !important; }
+.guide-card-1:hover { border-color: rgba(244,63,94,0.45) !important; }
+.guide-card-1 .guide-card-num, .guide-card-1 .guide-card-tag { color: #fb7185 !important; }
+.guide-card-2 { border-color: rgba(245,158,11,0.2) !important; }
+.guide-card-2:hover { border-color: rgba(245,158,11,0.45) !important; }
+.guide-card-2 .guide-card-num, .guide-card-2 .guide-card-tag { color: #fbbf24 !important; }
+.guide-card-3 { border-color: rgba(6,182,212,0.2) !important; }
+.guide-card-3:hover { border-color: rgba(6,182,212,0.45) !important; }
+.guide-card-3 .guide-card-num, .guide-card-3 .guide-card-tag { color: #22d3ee !important; }
+.guide-card-4 { border-color: rgba(16,185,129,0.2) !important; }
+.guide-card-4:hover { border-color: rgba(16,185,129,0.45) !important; }
+.guide-card-4 .guide-card-num, .guide-card-4 .guide-card-tag { color: #34d399 !important; }
+.guide-card-5 { border: 1px solid rgba(196,167,125,0.85) !important; background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 30%, rgba(196,167,125,0.5) 100%) !important; box-shadow: 0 0 34px 5px rgba(196,167,125,0.3), inset 0 0 26px rgba(196,167,125,0.1) !important; }
+.guide-card-5:hover { border-color: rgba(196,167,125,1) !important; box-shadow: 0 0 46px 9px rgba(196,167,125,0.45), inset 0 0 26px rgba(196,167,125,0.12) !important; }
+.guide-card-5 .guide-card-num, .guide-card-5 .guide-card-tag { color: var(--gold-primary) !important; }
+.guide-card-1 .img-gold-wrap:hover { box-shadow: 0 0 0 1.5px rgba(244,63,94,0.85), 0 0 28px 4px rgba(244,63,94,0.38), 0 18px 56px rgba(0,0,0,0.7) !important; }
+.guide-card-2 .img-gold-wrap:hover { box-shadow: 0 0 0 1.5px rgba(245,158,11,0.85), 0 0 28px 4px rgba(245,158,11,0.38), 0 18px 56px rgba(0,0,0,0.7) !important; }
+.guide-card-3 .img-gold-wrap:hover { box-shadow: 0 0 0 1.5px rgba(6,182,212,0.85), 0 0 28px 4px rgba(6,182,212,0.38), 0 18px 56px rgba(0,0,0,0.7) !important; }
+.guide-card-4 .img-gold-wrap:hover { box-shadow: 0 0 0 1.5px rgba(16,185,129,0.85), 0 0 28px 4px rgba(16,185,129,0.38), 0 18px 56px rgba(0,0,0,0.7) !important; }
+.guide-card-5 .img-gold-wrap:hover { box-shadow: 0 0 0 1.5px rgba(196,167,125,0.85), 0 0 28px 4px rgba(196,167,125,0.38), 0 18px 56px rgba(0,0,0,0.7) !important; }
+.guide-card-1 .img-gold-wrap { box-shadow: 0 0 0 1px rgba(244,63,94,0.2), 0 10px 40px rgba(0,0,0,0.6) !important; }
+.guide-card-2 .img-gold-wrap { box-shadow: 0 0 0 1px rgba(245,158,11,0.2), 0 10px 40px rgba(0,0,0,0.6) !important; }
+.guide-card-3 .img-gold-wrap { box-shadow: 0 0 0 1px rgba(6,182,212,0.2), 0 10px 40px rgba(0,0,0,0.6) !important; }
+.guide-card-4 .img-gold-wrap { box-shadow: 0 0 0 1px rgba(16,185,129,0.2), 0 10px 40px rgba(0,0,0,0.6) !important; }
+.guide-card-5 .img-gold-wrap { box-shadow: 0 0 0 1px rgba(196,167,125,0.2), 0 10px 40px rgba(0,0,0,0.6) !important; }
+.guide-card-1 { background: linear-gradient(180deg, var(--bg-card) 0%, rgba(244,63,94,0.05) 100%) !important; }
+.guide-card-2 { background: linear-gradient(180deg, var(--bg-card) 0%, rgba(245,158,11,0.05) 100%) !important; }
+.guide-card-3 { background: linear-gradient(180deg, var(--bg-card) 0%, rgba(6,182,212,0.05) 100%) !important; }
+.guide-card-4 { background: linear-gradient(180deg, var(--bg-card) 0%, rgba(16,185,129,0.05) 100%) !important; }
+.guide-card-1 .img-gold-caption-inner strong { color: #fb7185 !important; }
+.guide-card-2 .img-gold-caption-inner strong { color: #fbbf24 !important; }
+.guide-card-3 .img-gold-caption-inner strong { color: #22d3ee !important; }
+.guide-card-4 .img-gold-caption-inner strong { color: #34d399 !important; }
+.guide-card-5 .img-gold-caption-inner strong { color: var(--gold-primary) !important; }
+
+
+@media (max-width: 768px) {
+  .problem-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .trust-badge-grid { grid-template-columns: 1fr !important; }
+  .feature-grid { grid-template-columns: 1fr !important; }
+  .guide-step { grid-template-columns: 44px 1fr; gap: 0 1.2rem; }
+  .guide-timeline::before { left: 22px; }
+  .guide-step-num { width: 44px; height: 44px; font-size: 1rem; }
+  .guide-screenshots.cols-2, .guide-screenshots.cols-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  nav { padding: 0.9rem 0.8rem !important; }
+  nav > div { flex-wrap: nowrap !important; }
+  nav .nav-logo-img { width: 24px !important; height: 24px !important; }
+  nav span[style*="letter-spacing:0.15em"] { font-size: 1rem !important; letter-spacing: 0.08em !important; }
+  #langSwitcher button { padding: 3px 8px !important; font-size: 10px !important; }
+  nav a[href="#guide"] { display: none !important; }
+  nav a[href="#buy"] { padding: 6px 12px !important; font-size: 11px !important; white-space: nowrap !important; }
+}
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  display: none;
+  position: fixed !important;
+  inset: 0;
+  z-index: 9999 !important;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  cursor: zoom-out;
+}
+#lightbox.active { display: flex; }
+#lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(196,167,125,0.5),
+    0 0 40px 4px rgba(196,167,125,0.18),
+    0 30px 100px rgba(0,0,0,0.8);
+  animation: lbFadeIn 0.22s ease;
+  cursor: default;
+  object-fit: contain;
+}
+@keyframes lbFadeIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+#lightbox-caption {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.75); border: 1px solid rgba(196,167,125,0.2);
+  border-radius: 6px; padding: 8px 18px; font-size: 12px; color: #94a3b8;
+  white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.3s ease 0.15s;
+}
+#lightbox.active #lightbox-caption { opacity: 1; }
+#lightbox-close {
+  position: fixed; top: 1.2rem; right: 1.4rem; width: 36px; height: 36px;
+  border-radius: 50%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  color: #aaa; font-size: 18px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s, color 0.2s; line-height: 1;
+}
+#lightbox-close:hover { background: rgba(196,167,125,0.15); color: #c4a77d; border-color: rgba(196,167,125,0.4); }
+#lightbox-nav-prev, #lightbox-nav-next {
+  position: fixed; top: 50%; transform: translateY(-50%); width: 44px; height: 44px;
+  border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: #aaa; font-size: 20px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; user-select: none;
+}
+#lightbox-nav-prev { left: 1.2rem; }
+#lightbox-nav-next { right: 1.2rem; }
+#lightbox-nav-prev:hover, #lightbox-nav-next:hover { background: rgba(196,167,125,0.15); color: #c4a77d; border-color: rgba(196,167,125,0.4); }
+#lightbox-counter {
+  position: fixed; top: 1.35rem; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: #555; letter-spacing: 0.08em; pointer-events: none;
+}
+
+/* ── BACKGROUND CANVAS ── */
+#bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+body > *:not(#bg-canvas):not(#lightbox) { position: relative; z-index: 1; }
+
+/* ── PRICING ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.price-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(196,167,125,0.2);
+  border-radius: 10px;
+  padding: 16px 14px;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+  position: relative;
+}
+.price-card.popular {
+  border-color: #c4a77d;
+  background: rgba(196,167,125,0.05);
+}
+.price-card:hover { transform: translateY(-3px); border-color: #c4a77d; }
+.badge {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  background: #c4a77d; color: #000; font-size: 9px; font-weight: bold;
+  padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
+}
+.plan-name { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.plan-price { font-size: 22px; font-weight: bold; color: #fff; margin: 4px 0 2px; }
+.plan-price span { font-size: 12px; color: #666; font-weight: 400; }
+.plan-messages {
+  font-size: 12px; color: #c4a77d; font-weight: 600; margin-bottom: 4px;
+}
+.plan-info { font-size: 11px; color: #666; margin-bottom: 14px; line-height: 1.5; }
+.btn-gold-buy {
+  background: #c4a77d; color: #000; border: none; border-radius: 4px;
+  padding: 9px; width: 100%; font-weight: bold; font-size: 11px;
+  cursor: pointer; transition: opacity 0.2s; letter-spacing: 0.05em;
+}
+.btn-gold-buy:hover { opacity: 0.9; }
+.btn-gold-buy:disabled {
+  background: #333 !important; color: #777 !important;
+  cursor: not-allowed; opacity: 0.5; transform: none !important;
+}
+
+/* Messages tooltip/explainer */
+.msg-explainer {
+  background: rgba(196,167,125,0.05);
+  border: 1px solid rgba(196,167,125,0.18);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  color: #8a9aaa;
+  line-height: 1.65;
+  text-align: left;
+}
+.msg-explainer strong { color: #c4a77d; }
+
+#consent-box.highlight { border-color: #c4a77d; background: rgba(196,167,125,0.15); }
+
+/* Brennender Text-Effekt für "40 €" */
+.fire-text {
+  position: relative;
+  display: inline-block;
+  color: #fff7e6;
+  font-weight: 800;
+  animation: fireFlicker 0.35s infinite alternate;
+  text-shadow:
+    0 -1px 4px #fff7c2,
+    0 -3px 8px #ffd54a,
+    0 -7px 14px #ff9d1f,
+    0 -12px 22px #ff5a1f,
+    0 -18px 32px #ff3d00,
+    0 -26px 44px rgba(255,61,0,0.55),
+    0 2px 6px rgba(0,0,0,0.5);
+}
+@keyframes fireFlicker {
+  0%   {
+    text-shadow:
+      0 -1px 4px #fff7c2,
+      0 -3px 8px #ffd54a,
+      0 -7px 14px #ff9d1f,
+      1px -12px 20px #ff5a1f,
+      -1px -18px 30px #ff3d00,
+      0 -25px 42px rgba(255,61,0,0.5),
+      0 2px 6px rgba(0,0,0,0.5);
+    transform: scale(1);
+  }
+  30% {
+    text-shadow:
+      0 -1px 4px #fff9d6,
+      -1px -4px 9px #ffd54a,
+      1px -8px 16px #ff9d1f,
+      0 -13px 24px #ff5a1f,
+      1px -20px 34px #ff3d00,
+      0 -28px 48px rgba(255,61,0,0.6),
+      0 2px 6px rgba(0,0,0,0.5);
+    transform: scale(1.01);
+  }
+  55% {
+    text-shadow:
+      0 -1px 3px #fff7c2,
+      1px -3px 7px #ffd54a,
+      -1px -6px 13px #ff9d1f,
+      0 -11px 19px #ff5a1f,
+      -1px -17px 28px #ff3d00,
+      0 -24px 40px rgba(255,61,0,0.5),
+      0 2px 6px rgba(0,0,0,0.5);
+    transform: scale(0.995);
+  }
+  80% {
+    text-shadow:
+      0 -1px 4px #fff9d6,
+      0 -4px 9px #ffd54a,
+      1px -9px 17px #ff9d1f,
+      -1px -14px 25px #ff5a1f,
+      0 -21px 36px #ff3d00,
+      0 -29px 50px rgba(255,61,0,0.6),
+      0 2px 6px rgba(0,0,0,0.5);
+    transform: scale(1.008);
+  }
+  100% {
+    text-shadow:
+      0 -1px 4px #fff7c2,
+      0 -3px 8px #ffd54a,
+      0 -7px 14px #ff9d1f,
+      1px -12px 20px #ff5a1f,
+      -1px -19px 31px #ff3d00,
+      0 -26px 45px rgba(255,61,0,0.55),
+      0 2px 6px rgba(0,0,0,0.5);
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fire-text { animation: none !important; }
+}
+
+@media (max-width: 480px) {
+  ul[style*="font-family:monospace"] li { font-size: 12px !important; }
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body class="antialiased">
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="lightbox-close" aria-label="Schließen">✕</button>
+  <button id="lightbox-nav-prev" aria-label="Vorheriges Bild">‹</button>
+  <img id="lightbox-img" alt="">
+  <button id="lightbox-nav-next" aria-label="Nächstes Bild">›</button>
+  <div id="lightbox-caption"></div>
+  <div id="lightbox-counter"></div>
+</div>
+
+<!-- NAV -->
+<nav style="position:sticky;top:0;z-index:50;padding:1.2rem 1.5rem;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <img src="yukon.ico" alt="YUKON" class="nav-logo-img" style="width:28px;height:28px;object-fit:contain;">
+      <span style="font-family:'Playfair Display',serif;color:#c4a77d;font-size:1.2rem;font-weight:700;letter-spacing:0.15em;">YUKON</span>
+      <div id="langSwitcher" style="display:inline-flex;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:2px;gap:2px;">
+        <button type="button" onclick="setLang('de')" data-lang-btn="de" style="border:none;cursor:pointer;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:700;background:transparent;color:#aaa;transition:all 0.2s;">DE</button>
+        <button type="button" onclick="setLang('en')" data-lang-btn="en" style="border:none;cursor:pointer;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:700;background:transparent;color:#aaa;transition:all 0.2s;">EN</button>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="#guide" style="font-size:12px;color:#aaa;text-decoration:none;padding:4px 8px;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#aaa'">
+        <span class="lang-de">Anleitung</span>
+        <span class="lang-en lang-hidden">Guide</span>
+      </a>
+      <a href="#buy" class="btn-gold" style="padding:6px 18px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-decoration:none;text-transform:uppercase;">
+        <span class="lang-de">Lizenz erwerben</span>
+        <span class="lang-en lang-hidden">Get License</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO HEADER -->
+<header style="padding:5rem 1.5rem 3rem;text-align:center;max-width:900px;margin:0 auto;">
+  <div style="display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border:1px solid rgba(196,167,125,0.25);border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.12em;color:#c4a77d;text-transform:uppercase;margin-bottom:1.5rem;">
+    <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;"></span>
+    <span class="lang-de">XAUUSD-Signal Backtesting Software</span>
+    <span class="lang-en lang-hidden">XAUUSD Gold Signal Backtesting Software</span>
+  </div>
+  <h1 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;line-height:1.15;margin-bottom:1.2rem;background:linear-gradient(180deg,#f5f0e8 0%,#c4a77d 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
+    <span class="lang-de">Prüfe Gold-Signale aus Telegram-Trading-Gruppen datenbasiert</span>
+    <span class="lang-en lang-hidden">Verify Gold Signals from Telegram trading groups using real data</span>
+  </h1>
+  <p style="font-size:1.1rem;color:#adbed6;max-width:680px;margin:0 auto 2.5rem;line-height:1.7;">
+    <span class="lang-de">Telegram-Kanäle löschen heimlich Verlust-Trades und fälschen Trefferquoten. YUKON gleicht jeden Chatverlauf mit echten 1-Minuten-XAUUSD-Kursdaten ab und berechnet die ungeschönte Wahrheit.</span>
+    <span class="lang-en lang-hidden">Telegram channels secretly delete losing trades and fake their win rates. YUKON cross-checks every chat history against real 1-minute XAUUSD price data and calculates the unfiltered truth.</span>  
+  </p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <a href="#features" style="border:1px solid #374151;padding:10px 28px;border-radius:4px;font-size:14px;font-weight:500;color:#ccc;text-decoration:none;">
+      <span class="lang-de">Funktionen</span><span class="lang-en lang-hidden">Features</span>
+    </a>
+    <a href="#buy" class="btn-gold" style="padding:10px 28px;border-radius:4px;font-size:14px;font-weight:700;text-decoration:none;">
+      <span class="lang-de">Jetzt starten</span><span class="lang-en lang-hidden">Get started</span>
+    </a>
+  </div>
+</header>
+
+<!-- HERO SCREENSHOT -->
+<section style="padding:0 1.5rem 5rem;max-width:1100px;margin:0 auto;">
+  <div class="hero-screenshot-wrap" data-lightbox-src="app-main.png" data-lightbox-caption="YUKON Hauptoberfläche" data-lightbox-caption-en="YUKON Main Interface">
+    <img src="app-main.png" alt="YUKON Software Interface">
+    <div class="img-gold-caption">
+      <div class="img-gold-caption-inner">
+        <strong class="lang-de">YUKON Hauptoberfläche</strong>
+        <strong class="lang-en lang-hidden">YUKON Main Interface</strong>
+        <em class="lang-de">Der Bot bei der Analyse – Signal-Erkennung und Backtesting in Echtzeit</em>
+        <em class="lang-en lang-hidden">The bot during analysis — real-time signal detection and backtesting</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section id="problem" style="padding:5rem 1.5rem;background:transparent;border-top:1px solid rgba(255,255,255,0.04);">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div style="display:inline-block;padding:3px 12px;border:1px solid rgba(239,68,68,0.3);border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.1em;color:#f87171;text-transform:uppercase;margin-bottom:1.2rem;">
+      <span class="lang-de">Die dunkle Seite von Telegram-Trading</span><span class="lang-en lang-hidden">The Dark Side of Telegram Trading</span>
+    </div>
+    <h2 style="font-size:2rem;font-weight:800;line-height:1.2;margin-bottom:1.2rem;font-family:'Playfair Display',serif;color:#e0e0e0;">
+      <span class="lang-de">Tausende Gruppen. <span style="color:#f87171;">Kaum einer</span> kann wirklich traden.</span>
+      <span class="lang-en lang-hidden">Thousands of groups. <span style="color:#f87171;">Barely anyone</span> can actually trade.</span>
+    </h2>
+    <p style="color:#adbed6;font-size:15px;max-width:640px;margin:0 auto 3rem;line-height:1.7;">
+      <span class="lang-de">Telegram ist voll von selbsternannten Trading-Gurus, die 99% Winrate und risikofreie Gewinne versprechen. Die Realität: Die meisten manipulieren ihre Ergebnisse systematisch.</span>
+      <span class="lang-en lang-hidden">Telegram is full of self-proclaimed trading gurus promising 99% win rates and risk-free profits. The reality: most of them systematically manipulate their results.</span>
+    </p>
+    <div class="problem-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:left;">
+      <div class="problem-card problem-card-1" style="background:var(--bg-card);border:1px solid;border-radius:16px;padding:1.25rem;height:200px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></div>
+        <h3 style="font-size:16px;font-weight:700;color:#fff;margin-bottom:0.75rem;white-space:nowrap;"><span class="lang-de">Nachrichten gelöscht</span><span class="lang-en lang-hidden">Messages get deleted</span></h3>
+        <p style="font-size:13px;color:#adbed6;line-height:1.6;"><span class="lang-de">Wenn ein Signal verliert, wird die Nachricht heimlich gelöscht, als wäre der Verlust-Trade nie passiert.</span><span class="lang-en lang-hidden">When a signal loses, the message often gets quietly deleted — as if that losing trade had never happened.</span></p>
+      </div>
+      <div class="problem-card problem-card-2" style="background:var(--bg-card);border:1px solid;border-radius:16px;padding:1.25rem;height:200px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3.34a10 10 0 1 1-14.995 8.984A10 10 0 0 1 17 3.34z"></path><path d="M9 9a3 3 0 1 1 4 2.83"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+        <h3 style="font-size:16px;font-weight:700;color:#fff;margin-bottom:0.75rem;white-space:nowrap;"><span class="lang-de">Gefälschte Winrates</span><span class="lang-en lang-hidden">Faked win rates</span></h3>
+        <p style="font-size:13px;color:#adbed6;line-height:1.6;"><span class="lang-de">Nur seltene Gewinne werden gefeiert. Schein-Statistiken täuschen ahnungslosen Tradern Professionalität vor.</span><span class="lang-en lang-hidden">Only rare wins get celebrated. Fake statistics create a false sense of professionalism for unsuspecting traders.</span></p>
+      </div>
+      <div class="problem-card problem-card-3" style="background:var(--bg-card);border:1px solid;border-radius:16px;padding:1.25rem;height:200px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+        <h3 style="font-size:16px;font-weight:700;color:#fff;margin-bottom:0.75rem;white-space:nowrap;"><span class="lang-de">Keine Verifikation</span><span class="lang-en lang-hidden">No verification</span></h3>
+        <p style="font-size:13px;color:#adbed6;line-height:1.6;"><span class="lang-de">Ohne eigenen Datenabgleich ist es unmöglich zu wissen, ob ein Signalgeber echten Marktwert besitzt.</span><span class="lang-en lang-hidden">Without your own data comparison, it's impossible to know whether a signal provider has any real market value.</span></p>
+      </div>
+      <div class="problem-card problem-card-4" style="background:var(--bg-card);border:1px solid;border-radius:16px;padding:1.25rem;height:200px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+        <h3 style="font-size:16px;font-weight:700;color:#fff;margin-bottom:0.75rem;white-space:nowrap;"><span class="lang-de">Kapitalverlust</span><span class="lang-en lang-hidden">Loss of capital</span></h3>
+        <p style="font-size:13px;color:#adbed6;line-height:1.6;"><span class="lang-de">Wer unüberprüften Kanälen blind folgt, riskiert unnötige Drawdowns und den Verlust seines Handelskontos.</span><span class="lang-en lang-hidden">Blindly following unverified channels risks unnecessary drawdowns and the loss of your trading account.</span></p>
+      </div>
+    </div>
+    <div style="margin-top:3rem;max-width:780px;margin-left:auto;margin-right:auto;background:var(--bg-card);border:1px solid rgba(196,167,125,0.25);border-radius:16px;padding:2.6rem 2.2rem;text-align:center;">
+      <h3 style="font-size:1.9rem;font-weight:800;color:#c4a77d;font-family:'Playfair Display',serif;margin-bottom:1.1rem;">
+        <span class="lang-de">Die quantitative Lösung</span><span class="lang-en lang-hidden">The Quantitative Solution</span>
+      </h3>
+      <p style="color:#cbd5e1;font-size:15px;line-height:1.75;margin-bottom:1.6rem;" class="lang-de">Mit <strong style="color:#e0e0e0;">YUKON</strong> gleichst du Telegram-Trading-Gruppen mit echten historischen 1-Minuten-Marktdaten ab. Keine Behauptungen, kein blindes Vertrauen — nur objektive, mathematische Fakten.</p>
+      <p style="color:#cbd5e1;font-size:15px;line-height:1.75;margin-bottom:1.6rem;" class="lang-en lang-hidden">With <strong style="color:#e0e0e0;">YUKON</strong>, you cross-reference Telegram trading groups against real historical 1-minute market data. No claims, no blind trust — just objective, mathematical facts.</p>
+      <a href="#features" style="display:inline-block;padding:10px 24px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-decoration:none;background:linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%);color:black;">
+        <span class="lang-de">So funktioniert die Analyse →</span><span class="lang-en lang-hidden">How the analysis works →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features" style="padding:5rem 1.5rem;background:transparent;border-top:1px solid rgba(255,255,255,0.04);">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;">
+      <div style="display:inline-block;padding:4px 14px;border:1px solid rgba(196,167,125,0.35);border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--gold-primary);text-transform:uppercase;margin-bottom:1.4rem;">
+        <span class="lang-de">Datenanalyse</span>
+        <span class="lang-en lang-hidden">Data Analytics</span>
+      </div>
+    </div>
+    <h2 style="font-size:2.2rem;font-weight:700;text-align:center;margin-bottom:4rem;font-family:'Playfair Display',serif;color:#f5f0e8;">
+      <span class="lang-de">Einzigartige Analytik auf Minuten-Ebene</span>
+      <span class="lang-en lang-hidden">Unique Minute-Level Analytics</span>
+    </h2>
+    <div class="feature-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:6rem;">
+      <div>
+        <div style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:0.08em;color:#c4a77d;text-transform:uppercase;margin-bottom:0.6rem;">01 // <span class="lang-de">PERFORMANCE DASHBOARD</span><span class="lang-en lang-hidden">PERFORMANCE DASHBOARD</span></div>
+        <h3 style="font-size:1.7rem;font-weight:700;margin-bottom:1.2rem;font-family:'Playfair Display',serif;color:#f5f0e8;">
+          <span class="lang-de">Maximale Datentiefe & Transparenz</span><span class="lang-en lang-hidden">Maximum Data Depth & Transparency</span>
+        </h3>
+        <div style="color:#adbed6;line-height:1.75;margin-bottom:1.5rem;font-size:15px;">
+          <p class="lang-de">YUKON berechnet Kennzahlen, die normalerweise professionellen Quant-Tradern vorbehalten sind. Unser Algorithmus analysiert die <strong style="color:#ddd;">Qualität der Signale</strong> und unterscheidet echten Skill von Zufallstreffern.</p>
+          <p class="lang-en lang-hidden">YUKON calculates metrics typically reserved for professional quant traders. Our algorithm analyzes <strong style="color:#ddd;">signal quality</strong> and distinguishes real skill from random luck.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="text-align:left;background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+            <span><span class="lang-de">Detaillierter Performance-Check</span><span class="lang-en lang-hidden">Detailed performance analysis</span></span>
+          </div>
+          <div style="text-align:left;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            <span><span class="lang-de">Anteil gelöschter Nachrichten</span><span class="lang-en lang-hidden">Share of deleted messages</span></span>
+          </div>
+          <div style="text-align:left;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span><span class="lang-de">Automatischer Excel-Export</span><span class="lang-en lang-hidden">Automated Excel export</span></span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="img-gold-wrap" data-lightbox-src="excel-file2.png" data-lightbox-caption="Performance Summary Report" data-lightbox-caption-en="Performance Summary Report">
+          <img src="excel-file2.png" alt="Performance Summary Report" class="feature-img">
+          <div class="img-gold-caption">
+            <div class="img-gold-caption-inner">
+              <strong>Performance Summary Report</strong>
+              <em class="lang-de">Aggregierte Übersicht aller Signale einer Gruppe inkl. Winrate, Drawdown und Risk/Reward</em>
+              <em class="lang-en lang-hidden">Aggregated overview of all signals including win rate, drawdown and risk/reward</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="feature-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div>
+        <div class="img-gold-wrap" data-lightbox-src="excel-file3.png" data-lightbox-caption="Trade-by-Trade Journal" data-lightbox-caption-en="Trade-by-Trade Journal">
+          <img src="excel-file3.png" alt="Trade List" class="feature-img">
+          <div class="img-gold-caption">
+            <div class="img-gold-caption-inner">
+              <strong class="lang-de">Trade-by-Trade Journal</strong>
+              <strong class="lang-en lang-hidden">Trade-by-Trade Journal</strong>
+              <em class="lang-de">Jedes Signal einzeln gegen echte XAUUSD 1-Minuten-Daten geprüft – mit wichtigen Statistiken wie PnL oder R:R</em>
+              <em class="lang-en lang-hidden">Each signal individually verified against real XAUUSD 1-minute data – with significant statistics like PnL or R:R</em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:0.08em;color:#c4a77d;text-transform:uppercase;margin-bottom:0.6rem;">02 // <span class="lang-de">TRADE-BY-TRADE JOURNAL</span><span class="lang-en lang-hidden">TRADE-BY-TRADE JOURNAL</span></div>
+        <h3 style="font-size:1.7rem;font-weight:700;margin-bottom:1.2rem;font-family:'Playfair Display',serif;color:#f5f0e8;">
+          <span class="lang-de">Lückenlose Trade-Auswertung</span><span class="lang-en lang-hidden">Complete Trade Analysis</span>
+        </h3>
+        <div style="color:#adbed6;line-height:1.75;margin-bottom:1.5rem;font-size:15px;">
+          <p class="lang-de" style="margin-bottom:12px;">YUKON zeigt dir die Wahrheit: Vergangene Signale werden erfasst und mit echten 1-Minuten-Daten abgeglichen.</p>
+          <p class="lang-de">Für jeden Trade siehst du schwarz auf weiß, wie er wirklich abgeschnitten hat – inklusive PnL-Punkten und Risiko-Verhältnis.</p>
+          <p class="lang-en lang-hidden" style="margin-bottom:12px;">YUKON shows the truth: past signals are captured and cross-referenced with real 1-minute data.</p>
+          <p class="lang-en lang-hidden">For every trade, you see exactly how it performed — including precise PnL points and risk-to-reward ratio.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="text-align:left;background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+            <span><span class="lang-de">Signal-Abgleich mit echten XAUUSD-Daten</span><span class="lang-en lang-hidden">Signal matching with real XAUUSD data</span></span>
+          </div>
+          <div style="text-align:left;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+            <span><span class="lang-de">Detaillierte Signal-Auswertung</span><span class="lang-en lang-hidden">Detailed signal breakdown</span></span>
+          </div>
+          <div style="text-align:left;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:10px 12px;font-size:12px;color:#e0e0e0;display:flex;align-items:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span><span class="lang-de">Automatischer Excel-Export der Trade-Historie</span><span class="lang-en lang-hidden">Automatic Excel export of trade history</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE SECTION -->
+<section id="guide">
+  <div class="guide-inner">
+    <div style="text-align:center;margin-bottom:1rem;">
+      <div style="display:inline-block;padding:4px 14px;border:1px solid rgba(196,167,125,0.25);border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.12em;color:#c4a77d;text-transform:uppercase;margin-bottom:1.2rem;">
+        <span class="lang-de">SSchnellstart</span>
+        <span class="lang-en lang-hidden">Quickstart</span>
+      </div>
+      <h2 style="font-size:2.2rem;font-weight:700;font-family:'Playfair Display',serif;color:#f5f0e8;margin-bottom:0.8rem;">
+        <span class="lang-de">In 5 Schritten zum ersten Backtest</span>
+        <span class="lang-en lang-hidden">In 5 Steps to Your First Backtest</span>
+      </h2>
+      <p style="color:#adbed6;font-size:14px;max-width:700px;margin:0 auto;line-height:1.7;">
+        <span class="lang-de">Folge dieser einfachen Anleitung, um jede beliebige Telegram-Gruppe direkt zu prüfen.</span>
+        <span class="lang-en lang-hidden">Follow this straightforward guide to audit any Telegram trading group.</span>
+      </p>
+    </div>
+
+    <div class="guide-cards-outer">
+      <div class="guide-cards" id="guideCards">
+        <div class="guide-card guide-card-1">
+          <div class="guide-card-num">01</div>
+          <div class="guide-carousel" data-carousel>
+            <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="choose-group.png" data-lightbox-caption="Gruppe auswählen" data-lightbox-caption-en="Select Group"><img src="choose-group.png" alt="Telegram-Gruppe auswählen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Gruppe auswählen</strong><strong class="lang-en lang-hidden">Select Group</strong><em class="lang-de">Signalgruppe per Namen aus dem Dropdown wählen</em><em class="lang-en lang-hidden">Pick your signal group by name from the dropdown</em></div></div></div>
+          </div>
+          <div class="guide-card-title"><span class="lang-de">Gruppe auswählen</span><span class="lang-en lang-hidden">Select Group</span></div>
+          <div class="guide-card-desc"><span class="lang-de">Beim ersten Öffnen des <strong style="color:#ddd;">Group</strong>-Tabs bestätigst du einmalig deine Telefonnummer. Danach werden alle Gruppen, in denen du Mitglied bist, automatisch geladen – wähle einfach deine Signalgruppe per Namen aus dem Dropdown aus.</span><span class="lang-en lang-hidden">The first time you open the <strong style="color:#ddd;">Group</strong> tab, you confirm your phone number once. After that, all groups you're a member of load automatically — just pick your signal group by name from the dropdown.</span></div>
+        </div>
+
+        <div class="guide-card guide-card-2">
+          <div class="guide-card-num">02</div>
+          <div class="guide-carousel" data-carousel>
+            <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="choose-daterange.png" data-lightbox-caption="Analysezeitraum auswählen" data-lightbox-caption-en="Select Analysis Period"><img src="choose-daterange.png" alt="Analysezeitraum auswählen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Analysezeitraum</strong><strong class="lang-en lang-hidden">Analysis Period</strong><em class="lang-de">Optional Start- und Enddatum für den Analysezeitraum festlegen</em><em class="lang-en lang-hidden">Optionally set a start and end date for the analysis period</em></div></div></div>
+          </div>
+          <div class="guide-card-title"><span class="lang-de">Zeitraum wählen</span><span class="lang-en lang-hidden">Select Period</span></div>
+          <div class="guide-card-desc"><span class="lang-de">YUKON lädt XAUUSD-Kursdaten (1-Minuten-Auflösung) automatisch im Hintergrund. Optional kannst du den Analysezeitraum über ein Start- und Enddatum einschränken.</span><span class="lang-en lang-hidden">YUKON automatically fetches XAUUSD price data (1-minute resolution) in the background. Optionally, you can restrict the analysis period by picking a start and end date.</span></div>
+        </div>
+
+        <div class="guide-card guide-card-3">
+          <div class="guide-card-num">03</div>
+          <div class="guide-carousel" data-carousel>
+            <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="close-at-tp.png" data-lightbox-caption="Close-at-TP Auswahl" data-lightbox-caption-en="Close-at-TP Selection"><img src="close-at-tp.png" alt="Close at TP"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Close-at-TP Auswahl</strong><strong class="lang-en lang-hidden">Close-at-TP Selection</strong><em class="lang-de">TP-Level auswählen, bei dem Trades automatisch geschlossen werden</em><em class="lang-en lang-hidden">Select the TP level at which trades should be automatically closed</em></div></div></div>
+          </div>
+          <div class="guide-card-title"><span class="lang-de">Close-at-TP</span><span class="lang-en lang-hidden">Close-at-TP</span></div>
+          <div class="guide-card-desc"><span class="lang-de">Wähle aus, bei welchem Take-Profit-Level der Trade automatisch geschlossen wird. Bei <strong style="color:#ddd;">TP 5</strong> schließt der Bot immer am fünften Ziel. Hat ein Signal weniger TPs, wird beim letzten verfügbaren TP geschlossen.</span><span class="lang-en lang-hidden">Choose at which take-profit level the trade is automatically closed. If <strong style="color:#ddd;">TP 5</strong> is selected, the bot always closes at the fifth target. If a signal has fewer TPs, it closes at the last available one.</span></div>
+        </div>
+
+        <div class="guide-card guide-card-4">
+          <div class="guide-card-num">04</div>
+          <div class="guide-carousel" data-carousel>
+            <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="start-backtest1.png" data-lightbox-caption="Backtest starten" data-lightbox-caption-en="Start backtest"><img src="start-backtest1.png" alt="Backtest starten"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Backtest starten</strong><strong class="lang-en lang-hidden">Start backtest</strong><em class="lang-de">„Start Backtest" klicken um den Analyse-Prozess zu starten</em><em class="lang-en lang-hidden">Click "Start Backtest" to begin the analysis process</em></div></div></div>
+          <div class="guide-carousel-slide img-gold-wrap" data-lightbox-src="start-backtest2.png" data-lightbox-caption="Bot arbeitet" data-lightbox-caption-en="Bot processing"><img src="start-backtest2.png" alt="Bot arbeitet"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Bot arbeitet</strong><strong class="lang-en lang-hidden">Bot processing</strong><em class="lang-de">YUKON prüft die Signale gegen echte Marktdaten</em><em class="lang-en lang-hidden">YUKON verifies signals against real market data</em></div></div></div>
+          <div class="guide-carousel-slide img-gold-wrap" data-lightbox-src="start-backtest3.png" data-lightbox-caption="Backtest abgeschlossen" data-lightbox-caption-en="Backtest finished"><img src="start-backtest3.png" alt="Backtest abgeschlossen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Backtest abgeschlossen</strong><strong class="lang-en lang-hidden">Backtest finished</strong><em class="lang-de">Nach Abschluss liefert der Bot eine direkte Analyse sowie den Dateipfad zum Excel-Report</em><em class="lang-en lang-hidden">Instant terminal summary upon completion, including the path to your Excel report</em></div></div></div>
+            <div class="guide-carousel-arrow prev" data-prev>‹</div>
+            <div class="guide-carousel-arrow next" data-next>›</div>
+            <div class="guide-carousel-dots"><span class="active"></span><span></span><span></span></div>
+          </div>
+          <div class="guide-card-title"><span class="lang-de">Backtest starten</span><span class="lang-en lang-hidden">Start Backtest</span></div>
+          <div class="guide-card-desc"><span class="lang-de">Auf <strong style="color:#ddd;">Start Backtest</strong> klicken – der Bot lädt die früheren Signale der Gruppe und prüft sie Schritt für Schritt gegen die Echtzeit-Marktdaten. Je nach Signalmenge dauert das wenige Sekunden bis einige Minuten.</span><span class="lang-en lang-hidden">Click <strong style="color:#ddd;">Start Backtest</strong> — the bot loads previous signals and verifies them against real market data. This takes seconds to a few minutes depending on the number of signals.</span></div>
+        </div>
+
+        <div class="guide-card guide-card-5">
+          <div class="guide-card-num">05</div>
+          <div class="guide-carousel" data-carousel>
+            <div class="guide-carousel-slide active img-gold-wrap" data-lightbox-src="excel-file1.png" data-lightbox-caption="Ordner öffnen – yukon_backtests" data-lightbox-caption-en="Open folder – yukon_backtests"><img src="excel-file1.png" alt="Ordner öffnen"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Ordner öffnen</strong><strong class="lang-en lang-hidden">Open folder</strong><em class="lang-de">Excel-Datei im Ordner yukon_backtests finden</em><em class="lang-en lang-hidden">Find the Excel file inside yukon_backtests</em></div></div></div>
+          <div class="guide-carousel-slide img-gold-wrap" data-lightbox-src="excel-file2.png" data-lightbox-caption="Performance Dashboard" data-lightbox-caption-en="Performance Dashboard"><img src="excel-file2.png" alt="Performance Dashboard"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Performance Dashboard</strong><strong class="lang-en lang-hidden">Performance Dashboard</strong><em class="lang-de">Alle Kennzahlen der analysierten Gruppe auf einen Blick</em><em class="lang-en lang-hidden">All key metrics at a glance</em></div></div></div>
+          <div class="guide-carousel-slide img-gold-wrap" data-lightbox-src="excel-file3.png" data-lightbox-caption="Trade-Historie – PnL & R:R" data-lightbox-caption-en="Trade History – PnL & R:R"><img src="excel-file3.png" alt="Trade-Historie"><div class="img-gold-caption"><div class="img-gold-caption-inner"><strong class="lang-de">Trade-Historie</strong><strong class="lang-en lang-hidden">Trade History</strong><em class="lang-de">Umfassendes Signal-Journal mit PnL und R:R</em><em class="lang-en lang-hidden">Comprehensive signal journal with PnL and R:R</em></div></div></div>
+            <div class="guide-carousel-arrow prev" data-prev>‹</div>
+            <div class="guide-carousel-arrow next" data-next>›</div>
+            <div class="guide-carousel-dots"><span class="active"></span><span></span><span></span></div>
+          </div>
+          <div class="guide-card-title"><span class="lang-de">Excel-Report</span><span class="lang-en lang-hidden">Excel Report</span></div>
+          <div class="guide-card-desc"><span class="lang-de">Nach Abschluss des Backtests öffne im Bot-Installationsordner den Unterordner <strong style="color:#ddd;">yukon_backtests</strong> und starte die Excel-Datei. Das Dashboard zeigt alle Kennzahlen auf einen Blick, die Trade-Historie enthält jedes einzelne Signal mit vollständiger Auswertung.</span><span class="lang-en lang-hidden">After the backtest completes, open the <strong style="color:#ddd;">yukon_backtests</strong> subfolder and launch the Excel file. The dashboard shows all metrics at a glance, while the trade history contains every signal with full analysis.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:1.8rem;padding-top:3.5rem;border-top:1px solid rgba(255,255,255,0.05);">
+      <div style="display:inline-block;padding:4px 14px;border:1px solid rgba(196,167,125,0.35);border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--gold-primary);text-transform:uppercase;margin-bottom:1.4rem;">
+        <span class="lang-de">Lifetime Lizenz</span>
+        <span class="lang-en lang-hidden">Lifetime License</span>
+      </div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#f5f0e8;margin-bottom:0.9rem;line-height:1.2;">
+        <span class="lang-de">Faire Einmalzahlung. Kein Abo.</span>
+        <span class="lang-en lang-hidden">Fair one-time payment. No subscription.</span>
+      </h3>
+      <p style="color:#8a94a3;font-size:16;max-width:520;margin:0 auto 0rem;line-height:1.7;">
+        <span class="lang-de">Erhalte sofortigen, unbegrenzten Zugriff auf die Software inklusive aller künftigen Signalanalysen.</span>
+        <span class="lang-en lang-hidden">Get instant, unlimited access to the software including all future signal analyses.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BUY SECTION -->
+<section id="buy" style="padding:0rem 1.5rem;background:transparent;border-top:1px solid rgba(255,255,255,0.04);">
+  <div style="max-width:540px;margin:0 auto;">
+
+    <!-- Trust badges -->
+    <div class="trust-badge-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:2.5rem;width:100vw;max-width:900px;position:relative;left:50%;transform:translateX(-50%);">
+      <div class="problem-card" style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:16px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(196,167,125,0.45)'" onmouseout="this.style.borderColor='rgba(196,167,125,0.2)'">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(196,167,125,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem;flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.35rem;">
+          <span class="lang-de">Sichere Zahlung via Paddle</span>
+          <span class="lang-en lang-hidden">Secure payment via Paddle</span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;line-height:1.4;">
+          <span class="lang-de">Kreditkarte, Apple Pay, PayPal & mehr</span>
+          <span class="lang-en lang-hidden">Credit card, Apple Pay, PayPal & more</span>
+        </div>
+      </div>
+      <div class="problem-card" style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:16px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(196,167,125,0.45)'" onmouseout="this.style.borderColor='rgba(196,167,125,0.2)'">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(196,167,125,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem;flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line></svg>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.35rem;">
+          <span class="lang-de">Automatische Rechnung</span>
+          <span class="lang-en lang-hidden">Automatic Invoice</span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;line-height:1.4;">
+          <span class="lang-de">Wird per E-Mail zugestellt</span>
+          <span class="lang-en lang-hidden">Sent to you via email</span>
+        </div>
+      </div>
+      <div class="problem-card" style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:16px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(196,167,125,0.45)'" onmouseout="this.style.borderColor='rgba(196,167,125,0.2)'">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(196,167,125,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem;flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.35rem;">
+          <span class="lang-de">Einmalzahlung</span>
+          <span class="lang-en lang-hidden">One-Time Payment</span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;line-height:1.4;">
+          <span class="lang-de">Lebenslange Lizenz ohne monatliche Kosten</span>
+          <span class="lang-en lang-hidden">Lifetime license, no monthly costs</span>
+        </div>
+      </div>
+      <div class="problem-card" style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:16px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(196,167,125,0.45)'" onmouseout="this.style.borderColor='rgba(196,167,125,0.2)'">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(196,167,125,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem;flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z"></path></svg>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.35rem;">
+          <span class="lang-de">Unbegrenzte Analysen</span>
+          <span class="lang-en lang-hidden">Unlimited Analyses</span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;line-height:1.4;">
+          <span class="lang-de">Beliebig viele Gruppen & Signale</span>
+          <span class="lang-en lang-hidden">Unlimited groups & signals</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Card -->
+    <div style="background:rgba(10,10,10,0.55);border:1px solid rgba(196,167,125,0.3);border-radius:12px;padding:2.5rem;text-align:center;box-shadow:0 25px 80px rgba(0,0,0,0.5);position:relative;">
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse at center,#f3dfb8 0%,#d9b986 55%,#b8935f 100%);color:#000;font-size:11px;font-weight:800;padding:9px 22px;border-radius:0 0 8px 8px;white-space:nowrap;letter-spacing:0.02em;font-size:12px;">
+        <span class="lang-de">★ Lifetime Access · Launch Angebot</span><span class="lang-en lang-hidden">★ Lifetime Access · Launch Offer</span>
+      </div>
+      <img src="yukon.ico" alt="YUKON" class="nav-logo-img" style="width:40px;height:40px;object-fit:contain;display:block;margin:2rem auto 1rem;">
+      <h3 style="font-family:'Playfair Display',serif;color:#c4a77d;font-size:1.5rem;font-weight:700;margin-bottom:4px;">YUKON</h3>
+      <p style="font-size:12px;color:#8a94a3;margin-bottom:1.8rem;">
+        <span class="lang-de">Gold Signal Backtester für Telegram · Windows Desktop Edition</span>
+        <span class="lang-en lang-hidden">Gold Signal Backtester for Telegram · Windows Desktop Edition</span>
+      </p>
+
+      <!-- Launch-Preis-Hinweis -->
+      <div id="launch-banner" style="display:none;position:relative;background:rgba(196,167,125,0.1);border:1px solid rgba(196,167,125,0.35);border-radius:8px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:#c4a77d;font-weight:600;text-align:left;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="mascot-emoji" style="font-size:34px;line-height:1;flex-shrink:0;">⏳</div>
+          <div style="line-height:1.5;">
+            <span class="lang-de">Spare <strong class="fire-text">40&nbsp;€</strong> bei Kauf bis <strong>09.09.</strong> – danach 179,99&nbsp;€!</span>
+            <span class="lang-en lang-hidden">Save <strong class="fire-text">€40</strong> if you buy by <strong>Sep&nbsp;9</strong> – then €179.99!</span>
+          </div>
+          <div class="mascot-emoji" style="font-size:34px;line-height:1;flex-shrink:0;">🥳</div>
+        </div>
+      </div>
+      <style>
+        @keyframes mascotBounce {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          20% { transform: translateY(-8px) rotate(-8deg); }
+          40% { transform: translateY(0) rotate(0deg); }
+          55% { transform: translateY(-4px) rotate(6deg); }
+          70% { transform: translateY(0) rotate(0deg); }
+        }
+        .mascot-emoji { animation: mascotBounce 1.8s ease-in-out infinite; transform-origin: bottom center; display: inline-block; }
+        @media (prefers-reduced-motion: reduce) {
+          .mascot-emoji { animation: none !important; }
+        }
+      </style>
+
+      <!-- Pricing (Lifetime, einzelnes Produkt) -->
+      <div style="margin:0 auto 1.5rem;text-align:center;">
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:12px;margin-bottom:10px;">
+          <span id="lifetime-old-price" style="display:none;font-size:20px;color:#6b7280;text-decoration:line-through;text-decoration-thickness:1px;">179,99&nbsp;€</span>
+          <span class="plan-price" id="lifetime-price" style="font-size:44px;font-weight:900;background:linear-gradient(180deg,#ffffff 0%,#c4a77d 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">139,99&nbsp;€</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,167,125,0.12);border:1px solid rgba(196,167,125,0.35);border-radius:100px;padding:5px 14px;font-size:12px;color:#c4a77d;font-weight:600;">
+          🔖 <span class="lang-de">regulär 179,99&nbsp;€ · Einmalige Zahlung</span><span class="lang-en lang-hidden">regularly €179.99 · One-time payment</span>
+        </div>
+      </div>
+
+      <!-- Feature list -->
+      <ul style="text-align:left;display:flex;flex-direction:column;gap:10px;font-size:13px;color:#ccc;margin-bottom:2rem;list-style:none;">
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Finde profitable Trading-Gruppen</span><span class="lang-en lang-hidden">Find profitable trading groups</span></li>
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Erkenne unzuverlässige Signalquellen</span><span class="lang-en lang-hidden">Identify unreliable signal sources</span></li>
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Decke den Anteil gelöschter Nachrichten in deinen Gruppen auf</span><span class="lang-en lang-hidden">Reveal the share of deleted messages in your groups</span></li>
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Analyse der Telegram-Signale aus deinen Gruppen</span><span class="lang-en lang-hidden">Analyze Telegram signals from your groups</span></li>
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Backtests auf Basis von XAUUSD Echtzeit-Marktdaten</span><span class="lang-en lang-hidden">Backtests based on XAUUSD real-time market data</span></li>
+        <li style="display:flex;align-items:center;gap:10px;"><span style="width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="lang-de">Vollautomatischer Excel-Performance-Report</span><span class="lang-en lang-hidden">Fully automated Excel performance report</span></li>
+      </ul>
+
+      <!-- LEGAL CONSENT CHECKBOX -->
+      <div id="consent-box" style="background:rgba(196,167,125,0.06);border:1px solid rgba(196,167,125,0.2);border-radius:8px;padding:14px 16px;margin-bottom:16px;text-align:left;">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
+          <input type="checkbox" id="consent-check" onchange="toggleBuyButtons()"
+            style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#c4a77d;cursor:pointer;">
+          <span style="font-size:12px;color:#888;line-height:1.7;">
+            <span class="lang-de">
+              Ich habe die
+              <a href="terms.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">AGB</a>,
+              die <a href="privacy.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">Datenschutzerklärung</a>
+              und die <a href="withdrawal.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">Widerrufsbelehrung</a>
+              gelesen und akzeptiere diese. Ich stimme ausdrücklich zu, dass mit der Ausführung des Vertrags vor Ablauf der Widerrufsfrist begonnen wird, und nehme zur Kenntnis, dass ich mein Widerrufsrecht damit verliere.
+            </span>
+            <span class="lang-en lang-hidden">
+              I have read and accept the
+              <a href="terms.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">Terms</a>,
+              <a href="privacy.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">Privacy Policy</a>
+              and <a href="withdrawal.html" style="color:#c4a77d;text-decoration:none;border-bottom:1px solid rgba(196,167,125,0.35);" onmouseover="this.style.borderColor='#c4a77d'" onmouseout="this.style.borderColor='rgba(196,167,125,0.35)'">Right of Withdrawal</a>.
+              I expressly agree that performance of the contract begins before the withdrawal period expires and acknowledge that I thereby lose my right of withdrawal.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      
+
+      <button onclick="buy('lifetime')" class="btn-gold-buy" disabled style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%);font-size:14px;padding:13px;text-transform:uppercase;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <span class="lang-de">Jetzt Lizenz sichern</span><span class="lang-en lang-hidden">Get license now</span>
+      </button>
+
+      <script>
+      // Launch-Preis automatisch bis 09.09.2026 23:59 (Europe/Berlin), danach regulärer Preis.
+      // Hinweis: Bei Paddle selbst muss der Preis am 10.09. weiterhin manuell umgestellt werden.
+      (function () {
+        const launchEnd = new Date("2026-09-09T23:59:59+02:00");
+        const now = new Date();
+        const isLaunch = now <= launchEnd;
+
+        document.getElementById('lifetime-price').textContent = isLaunch ? "139,99 €" : "179,99 €";
+        document.getElementById('lifetime-old-price').style.display = isLaunch ? 'inline' : 'none';
+        document.getElementById('launch-banner').style.display = isLaunch ? 'block' : 'none';
+      })();
+      </script>
+      
+      <div style="margin-top:14px;text-align:left;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px 14px;font-size:11px;color:#9ca3af;line-height:1.6;display:flex;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg>
+        <span><strong style="color:#c8ccd4;">Systemvoraussetzung:</strong>
+        <span class="lang-de">Windows 10/11 (64-Bit) · Zahlung per Kreditkarte, Apple Pay oder weitere Methoden · Software-Oberfläche auf Englisch</span>
+        <span class="lang-en lang-hidden">Windows 10/11 (64-Bit) · Pay by credit card, Apple Pay or other methods · Software interface in English</span></span>
+      </div>
+
+      <div style="margin-top:8px;text-align:left;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px 14px;font-size:11px;color:#9ca3af;line-height:1.6;display:flex;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <span><strong style="color:#c8ccd4;">Hinweis:</strong>
+        <span class="lang-de">YUKON ist ein Analyse-Tool und stellt keine Anlageberatung dar. Trading ist mit Risiken verbunden.</span>
+        <span class="lang-en lang-hidden">YUKON is an analysis tool and does not constitute investment advice. Trading involves risk.</span></span>
+      </div>
+      <div style="margin-top:8px;text-align:left;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px 14px;font-size:11px;color:#9ca3af;line-height:1.6;display:flex;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M20.59 13.41 11 3.83 3.83 11l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.2" fill="#8ab4f8"/></svg>
+        <span><strong style="color:#c8ccd4;">Preise:</strong>
+        <span class="lang-de">Preise inkl. ggf. anfallender lokaler Steuern (abhängig von deinem Land, wird beim Checkout automatisch berechnet).</span>
+        <span class="lang-en lang-hidden">Prices include applicable local taxes (depending on your country, calculated automatically at checkout).</span></span>
+      </div>
+      <div style="margin-top:8px;text-align:left;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px 14px;font-size:11px;color:#9ca3af;line-height:1.6;display:flex;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span><strong style="color:#c8ccd4;">Signal-Format:</strong>
+        <span class="lang-de">Erkannt werden nur Signale, bei denen Richtung, Einstiegspreis, mindestens ein Take-Profit-Level und Stop-Loss gemeinsam in einer einzelnen Nachricht stehen. Über mehrere Nachrichten verteilte oder nachträglich aktualisierte Signale werden nicht erkannt. Die Signale sollten in englischer Formatierung vorliegen (z.B. BUY/SELL, Entry, TP, SL).</span>
+        <span class="lang-en lang-hidden">Only signals where direction, entry price, at least one take-profit level, and stop-loss are all contained in a single message are recognized. Signals spread across multiple messages or updated via follow-ups are not recognized. Signals should be formatted in English (e.g. BUY/SELL, Entry, TP, SL).</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:4.5rem 1.5rem 2.5rem;text-align:center;margin-top:1rem;">
+  <div style="max-width:220px;margin:0 auto 3rem;height:1px;background:linear-gradient(90deg, transparent, rgba(196,167,125,0.4), transparent);"></div>
+  <p style="font-size:12px;color:#8a94a3;letter-spacing:0.04em;margin-bottom:0.9rem;">
+    <span class="lang-de">Bereits Kunde? Lade den Bot hier herunter (Lizenzschlüssel zur Nutzung benötigt)</span>
+    <span class="lang-en lang-hidden">Already a customer? Download the bot here (license key required for use)</span>
+  </p>
+  <a href="#" onclick="confirmDownload(event)" class="btn-gold" style="padding:10px 24px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;background:linear-gradient(180deg,#e8cd9f 0%,#c4a77d 55%,#a8895c 100%);display:inline-flex;align-items:center;gap:8px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    <span class="lang-de">Bot herunterladen (.zip)</span><span class="lang-en lang-hidden">Download Bot (.zip)</span>
+  </a>
+  <p style="font-size:11px;color:#5f6670;margin-top:0.8rem;max-width:480px;margin-left:auto;margin-right:auto;">
+    <span class="lang-de">Hinweis: Windows kann beim Ausführen eine SmartScreen-Warnung anzeigen, da die Datei nicht signiert ist. Klicke in diesem Fall auf "Weitere Informationen" und dann auf "Trotzdem ausführen".</span>
+    <span class="lang-en lang-hidden">Note: Windows may show a SmartScreen warning when running the file, since it is not code-signed. If this happens, click "More info" and then "Run anyway".</span>
+  </p>
+</section>
+
+<div id="download-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:#111111;border:1px solid rgba(196,167,125,0.25);border-radius:8px;max-width:420px;width:100%;padding:2rem 1.75rem;text-align:center;">
+    <h3 style="font-family:'Playfair Display',serif;color:#c4a77d;font-size:1.2rem;margin-bottom:0.9rem;">
+      <span class="lang-de">Download bestätigen</span><span class="lang-en lang-hidden">Confirm Download</span>
+    </h3>
+    <p style="font-size:13px;color:#94a3b8;line-height:1.7;margin-bottom:1.6rem;">
+      <span class="lang-de">Du benötigst einen gültigen Lizenzschlüssel, um YUKON nach dem Starten zu aktivieren. Der Download enthält das vollständige ZIP-Paket. Möchtest du fortfahren?</span>
+      <span class="lang-en lang-hidden">You need a valid license key to activate YUKON after launching it. The download contains the complete ZIP package. Do you want to continue?</span>
+    </p>
+    <div style="display:flex;gap:0.75rem;justify-content:center;">
+      <button onclick="closeDownloadModal()" style="padding:8px 20px;border-radius:5px;font-size:13px;font-weight:600;background:transparent;border:1px solid #374151;color:#ccc;cursor:pointer;">
+        <span class="lang-de">Abbrechen</span><span class="lang-en lang-hidden">Cancel</span>
+      </button>
+      <a href="downloads/YUKON-Setup-v1.0.zip" download onclick="closeDownloadModal()" class="btn-gold" style="padding:8px 20px;border-radius:5px;font-size:13px;font-weight:700;text-decoration:none;">
+        <span class="lang-de">Herunterladen</span><span class="lang-en lang-hidden">Download</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('[data-carousel]').forEach(function (car) {
+  var slides = car.querySelectorAll('.guide-carousel-slide');
+  var dots = car.querySelectorAll('.guide-carousel-dots span');
+  var idx = 0;
+  function show(i) {
+    idx = (i + slides.length) % slides.length;
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === idx); });
+    dots.forEach(function (d, n) { d.classList.toggle('active', n === idx); });
+  }
+  var prev = car.querySelector('[data-prev]');
+  var next = car.querySelector('[data-next]');
+  if (prev) prev.addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
+  if (next) next.addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+});
+</script>
+
+<script>
+(function () {
+  var wrap = document.getElementById('guideCards');
+  if (!wrap) return;
+  var cards = wrap.querySelectorAll('.guide-card');
+  var ticking = false;
+  function updateActive() {
+    var center = wrap.scrollLeft + wrap.clientWidth / 2;
+    var maxDist = wrap.clientWidth / 2 + 260;
+    cards.forEach(function (c) {
+      var cCenter = c.offsetLeft + c.offsetWidth / 2;
+      var dist = Math.abs(cCenter - center);
+      var t = Math.min(dist / maxDist, 1);
+      var scale = 1 - t * 0.32;
+      var opacity = 1 - t * 0.65;
+      c.style.transform = 'scale(' + scale.toFixed(3) + ')';
+      c.style.opacity = opacity.toFixed(3);
+      c.style.zIndex = String(Math.round((1 - t) * 100));
+    });
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { requestAnimationFrame(updateActive); ticking = true; }
+  }
+  wrap.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateActive);
+  updateActive();
+})();
+</script>
+
+<script>
+function confirmDownload(e) {
+  e.preventDefault();
+  document.getElementById('download-modal').style.display = 'flex';
+}
+function closeDownloadModal() {
+  document.getElementById('download-modal').style.display = 'none';
+}
+document.getElementById('download-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDownloadModal();
+});
+</script>
+
+<!-- FAQ SECTION -->
+<section id="faq" style="padding:5rem 1.5rem;background:transparent;border-top:1px solid rgba(255,255,255,0.04);">
+  <div style="max-width:760px;margin:0 auto;">
+    <div style="text-align:center;">
+      <div style="display:inline-block;padding:4px 14px;border:1px solid rgba(196,167,125,0.35);border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--gold-primary);text-transform:uppercase;margin-bottom:1.4rem;">
+        <span class="lang-de">Fragen & Antworten</span>
+        <span class="lang-en lang-hidden">Q&A</span>
+      </div>
+    </div>
+    <h2 style="font-size:2.2rem;font-weight:700;text-align:center;margin-bottom:3rem;font-family:'Playfair Display',serif;color:#f5f0e8;">
+      <span class="lang-de">Häufig gestellte Fragen</span>
+      <span class="lang-en lang-hidden">Frequently Asked Questions</span>
+    </h2>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <details style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:10px;padding:1rem 1.2rem;">
+        <summary class="faq-summary" style="cursor:pointer;font-weight:600;color:#e0e0e0;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <span><span class="lang-de">Für welche Signalquellen funktioniert YUKON?</span>
+          <span class="lang-en lang-hidden">Which signal sources does YUKON work with?</span></span>
+          <svg class="faq-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c4a77d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin-top:0.8rem;">
+          <span class="lang-de">YUKON analysiert Telegram-Gruppen und -Kanäle, in denen Gold-Signale (XAUUSD) gepostet werden. Erkannt werden Signale mit Richtung, Einstiegspreis, mindestens einem Take-Profit und Stop-Loss in englischer Formatierung.</span>
+          <span class="lang-en lang-hidden">YUKON analyzes Telegram groups and channels where gold signals (XAUUSD) are posted. Signals with direction, entry price, at least one take-profit, and stop-loss in English formatting are recognized.</span>
+        </p>
+      </details>
+      <details style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:10px;padding:1rem 1.2rem;">
+        <summary class="faq-summary" style="cursor:pointer;font-weight:600;color:#e0e0e0;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <span><span class="lang-de">Kann ich YUKON auch für andere Handelspaare als Gold nutzen?</span>
+          <span class="lang-en lang-hidden">Can I use YUKON for trading pairs other than gold?</span></span>
+          <svg class="faq-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c4a77d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin-top:0.8rem;">
+          <span class="lang-de">Aktuell ist YUKON ausschließlich für XAUUSD (Gold) ausgelegt, da die Signalprüfung auf echten 1-Minuten-Marktdaten dieses Instruments basiert.</span>
+          <span class="lang-en lang-hidden">Currently, YUKON is designed exclusively for XAUUSD (gold), since signal verification is based on real 1-minute market data for this instrument.</span>        </p>
+      </details>
+      <details style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:10px;padding:1rem 1.2rem;">
+        <summary class="faq-summary" style="cursor:pointer;font-weight:600;color:#e0e0e0;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <span><span class="lang-de">Wie erkennt YUKON unzuverlässige Signalquellen?</span>
+          <span class="lang-en lang-hidden">How does YUKON detect unreliable signal sources?</span></span>
+          <svg class="faq-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c4a77d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin-top:0.8rem;">
+          <span class="lang-de">YUKON prüft u.a. den Anteil gelöschter Nachrichten und gleicht jedes einzelne Signal gegen reale Marktdaten ab, statt sich auf behauptete Erfolge zu verlassen.</span>
+          <span class="lang-en lang-hidden">YUKON checks, among other things, the share of deleted messages and matches every single signal against real market data, instead of relying on claimed results.</span>
+        </p>
+      </details>
+      <details style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:10px;padding:1rem 1.2rem;">
+        <summary class="faq-summary" style="cursor:pointer;font-weight:600;color:#e0e0e0;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <span><span class="lang-de">Was bekomme ich mit dem Kauf genau?</span>
+          <span class="lang-en lang-hidden">What exactly do I get with the purchase?</span></span>
+          <svg class="faq-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c4a77d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin-top:0.8rem;">
+          <span class="lang-de">Du erhältst per E-Mail einen Lizenzschlüssel zur Freischaltung der Software. Die Windows-Anwendung selbst kannst du direkt auf dieser Seite herunterladen.</span>
+          <span class="lang-en lang-hidden">You receive a license key via email to unlock the software. The Windows application itself can be downloaded directly on this page.</span>
+        </p>
+      </details>
+      <details style="background:var(--bg-card);border:1px solid rgba(196,167,125,0.2);border-radius:10px;padding:1rem 1.2rem;">
+        <summary class="faq-summary" style="cursor:pointer;font-weight:600;color:#e0e0e0;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <span><span class="lang-de">Ist die Software sicher, obwohl Windows eine Warnung anzeigt?</span>
+          <span class="lang-en lang-hidden">Is the software safe despite the Windows warning?</span></span>
+          <svg class="faq-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c4a77d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin-top:0.8rem;">
+          <span class="lang-de">Ja. Die SmartScreen-Warnung erscheint, weil die Datei nicht kostenpflichtig code-signiert ist – nicht, weil ein Sicherheitsrisiko besteht.</span>
+          <span class="lang-en lang-hidden">Yes. The SmartScreen warning appears because the file is not code-signed – not because of a security risk.</span>
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  details[open] .faq-arrow { transform: rotate(180deg); }
+  .faq-summary::-webkit-details-marker { display: none; }
+</style>
+
+<footer style="padding:2.5rem;text-align:center;color:#8a94a3;font-size:11px;border-top:1px solid rgba(255,255,255,0.04);">  <div style="margin-bottom:1rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
+    <a href="legal-notice.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">Impressum</a>
+    <a href="privacy.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+      <span class="lang-de">Datenschutz</span><span class="lang-en lang-hidden">Privacy</span>
+    </a>
+    <a href="terms.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+      <span class="lang-de">AGB</span><span class="lang-en lang-hidden">Terms</span>
+    </a>
+    <a href="withdrawal.html" style="color:#8a94a3;text-decoration:none;" onmouseover="this.style.color='#c4a77d'" onmouseout="this.style.color='#8a94a3'">
+      <span class="lang-de">Widerrufsbelehrung</span><span class="lang-en lang-hidden">Right of Withdrawal</span>
+    </a>
+  </div>
+  <p style="letter-spacing:0.12em;margin-bottom:4px;">© 2026 Yukon Algorithms. ALL RIGHTS RESERVED.</p>
+  <p class="lang-de">Haftungsausschluss: Vergangene Performance ist kein Indikator für zukünftige Ergebnisse.</p>
+  <p class="lang-en lang-hidden">Disclaimer: Past performance is not an indicator of future results.</p>
+</footer>
+
+<script>
+/* ── LANGUAGE (shared across all pages via localStorage) ── */
+function setLang(lang) {
+  localStorage.setItem('yukon_lang', lang);
+  applyLang(lang);
+}
+function applyLang(lang) {
+  document.querySelectorAll('#langSwitcher [data-lang-btn]').forEach(btn => {
+    const active = btn.dataset.langBtn === lang;
+    btn.style.background = active ? '#c4a77d' : 'transparent';
+    btn.style.color = active ? '#000' : '#aaa';
+  });  document.querySelectorAll('.lang-de').forEach(el => el.classList.toggle('lang-hidden', lang === 'en'));
+  document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', lang === 'de'));
+  // Update lightbox caption if open
+  if (document.getElementById('lightbox') && document.getElementById('lightbox').classList.contains('active')) {
+    const el = document.querySelectorAll('[data-lightbox-src]')[window._lbCurrentIndex || 0];
+    if (el) {
+      const cap = lang === 'en'
+        ? (el.dataset.lightboxCaptionEn || el.dataset.lightboxCaption)
+        : el.dataset.lightboxCaption;
+      document.getElementById('lightbox-caption').textContent = cap;
+    }
+  }
+}
+
+/* ── LOGO SPIN ── */
+document.querySelectorAll('.nav-logo-img').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
+});
+
+/* ── LIGHTBOX ── */
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay  = document.getElementById('lightbox');
+  const img      = document.getElementById('lightbox-img');
+  const caption  = document.getElementById('lightbox-caption');
+  const counter  = document.getElementById('lightbox-counter');
+  const btnClose = document.getElementById('lightbox-close');
+  const btnPrev  = document.getElementById('lightbox-nav-prev');
+  const btnNext  = document.getElementById('lightbox-nav-next');
+
+  const targets = [];
+  let currentIndex = 0;
+  let justOpened = false;
+
+  document.querySelectorAll('[data-lightbox-src]').forEach(el => targets.push(el));
+
+  function open(index) {
+    currentIndex = index;
+    window._lbCurrentIndex = index;
+    const el  = targets[index];
+    const lang = localStorage.getItem('yukon_lang') || 'en';
+    const cap = lang === 'en'
+      ? (el.dataset.lightboxCaptionEn || el.dataset.lightboxCaption || '')
+      : (el.dataset.lightboxCaption || '');
+    img.src = el.dataset.lightboxSrc;
+    img.alt = cap;
+    caption.textContent = cap;
+    counter.textContent = targets.length > 1 ? `${index + 1} / ${targets.length}` : '';
+    btnPrev.style.display = targets.length > 1 ? 'flex' : 'none';
+    btnNext.style.display = targets.length > 1 ? 'flex' : 'none';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    justOpened = true;
+    setTimeout(() => { justOpened = false; }, 100);
+  }
+  function close() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    img.removeAttribute('src');
+  }
+  function prev() { open((currentIndex - 1 + targets.length) % targets.length); }
+  function next() { open((currentIndex + 1) % targets.length); }
+
+  targets.forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      e.stopPropagation();
+      open(i);
+    });
+  });
+  overlay.addEventListener('click', (e) => { if (justOpened) return; if (e.target === overlay) close(); });
+  img.addEventListener('click', (e) => e.stopPropagation());
+  btnClose.addEventListener('click', (e) => { e.stopPropagation(); close(); });
+  btnPrev.addEventListener('click',  (e) => { e.stopPropagation(); prev(); });
+  btnNext.addEventListener('click',  (e) => { e.stopPropagation(); next(); });
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('active')) return;
+    if (e.key === 'Escape')    close();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+
+  // Init language
+  const savedLang = localStorage.getItem('yukon_lang') || 'en';
+  applyLang(savedLang);
+});
+
+/* ── BACKGROUND CANVAS ── */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles, orbs;
+  const GOLD = [196, 167, 125];
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+  function mkParticle() {
+    return { x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.6 + 0.5,
+      vx: (Math.random() - 0.5) * 0.22, vy: -(Math.random() * 0.32 + 0.08),
+      alpha: Math.random() * 0.55 + 0.12, pulse: Math.random() * Math.PI * 2, pSpeed: Math.random() * 0.014 + 0.007 };
+  }
+
+  function mkOrb(i) {
+    const angle = (i / 4) * Math.PI * 2 + Math.random() * 0.5;
+    const dist  = 0.24 + Math.random() * 0.18;
+    return { cx: W / 2 + Math.cos(angle) * W * dist, cy: H / 2 + Math.sin(angle) * H * dist,
+      r: Math.random() * 340 + 260, alpha: Math.random() * 0.07 + 0.04,
+      speed: (Math.random() * 0.00022 + 0.0001) * (Math.random() < 0.5 ? 1 : -1),
+      angle, dist, phase: Math.random() * Math.PI * 2 };
+  }
+
+  function init() {
+    resize();
+    const count = Math.min(Math.floor((W * H) / 5500), 200);
+    particles = Array.from({ length: count }, mkParticle);
+    orbs = Array.from({ length: 5 }, (_, i) => mkOrb(i));
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    orbs.forEach(o => {
+      o.angle += o.speed;
+      o.cx = W / 2 + Math.cos(o.angle) * W * o.dist;
+      o.cy = H / 2 + Math.sin(o.angle) * H * o.dist;
+      const breathe = 1 + 0.06 * Math.sin(t * 0.0006 + o.phase);
+      const rad = o.r * breathe;
+      const g = ctx.createRadialGradient(o.cx, o.cy, 0, o.cx, o.cy, rad);
+      g.addColorStop(0, `rgba(${GOLD},${o.alpha})`);
+      g.addColorStop(0.45, `rgba(${GOLD},${o.alpha * 0.35})`);
+      g.addColorStop(1, `rgba(${GOLD},0)`);
+      ctx.beginPath(); ctx.arc(o.cx, o.cy, rad, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    });
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.pulse += p.pSpeed;
+      const a = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+      if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
+      if (p.x < -4) p.x = W + 4;
+      if (p.x > W + 4) p.x = -4;
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2.5);
+      g.addColorStop(0, `rgba(${GOLD},${a})`); g.addColorStop(1, `rgba(${GOLD},0)`);
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    });
+    const vg = ctx.createRadialGradient(W/2, H/2, H*0.3, W/2, H/2, H*1.1);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.45)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  requestAnimationFrame(draw);
+})();
+
+/* ── CONSENT + CHECKOUT ── */
+function toggleBuyButtons() {
+  const isChecked = document.getElementById('consent-check').checked;
+  document.querySelectorAll('.btn-gold-buy').forEach(btn => { btn.disabled = !isChecked; });
+}
+
+</script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+<script>
+Paddle.Environment.set("production"); // Für Tests: "sandbox"
+Paddle.Initialize({
+    token: "live_5342bfee1aabdb7354db7eba5d5"
+});
+
+const PRICES = {
+    lifetime: "pri_01kzefsbazzhq7q8ct8ef2j0xt"
+};
+
+function buy(plan){
+    Paddle.Checkout.open({
+        items: [{
+            priceId: PRICES[plan],
+            quantity: 1
+        }]
+    });
+}
+</script>
+</body>
+</html>
